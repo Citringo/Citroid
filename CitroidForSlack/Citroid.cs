@@ -174,7 +174,7 @@ namespace CitroidForSlack
 						{
 							Message m = await Task.Factory.StartNew(() => JsonConvert.DeserializeObject<Message>(e.Message));
 
-							if (m.subtype != null && m.subtype != "bot_message" && m.subtype != "me_message")
+							if (!IsActive && m.subtype != null && m.subtype != "bot_message" && m.subtype != "me_message")
 								break;
 
 							// Ignore posts from bot and me
