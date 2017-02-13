@@ -5,6 +5,10 @@ VisualStudioVersion = 15.0.26020.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CitroidForSlack", "CitroidForSlack\CitroidForSlack.csproj", "{6F129D57-E663-4D81-B5E5-77604065AB49}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CitroidGui", "CitroidGui\CitroidGui.csproj", "{5A316A5D-60ED-4D91-AC13-4C408507FBDC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Citroid", "Citroid\Citroid.csproj", "{A7C639B1-174C-4624-BDD9-75E62CF1668C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{6F129D57-E663-4D81-B5E5-77604065AB49}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6F129D57-E663-4D81-B5E5-77604065AB49}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6F129D57-E663-4D81-B5E5-77604065AB49}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5A316A5D-60ED-4D91-AC13-4C408507FBDC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5A316A5D-60ED-4D91-AC13-4C408507FBDC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5A316A5D-60ED-4D91-AC13-4C408507FBDC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5A316A5D-60ED-4D91-AC13-4C408507FBDC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A7C639B1-174C-4624-BDD9-75E62CF1668C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A7C639B1-174C-4624-BDD9-75E62CF1668C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A7C639B1-174C-4624-BDD9-75E62CF1668C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A7C639B1-174C-4624-BDD9-75E62CF1668C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
