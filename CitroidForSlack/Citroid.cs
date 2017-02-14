@@ -8,6 +8,8 @@ using System.Net;
 using System.Threading.Tasks;
 using WebSocket4Net;
 using System;
+using System.Text.RegularExpressions;
+using System.Text;
 
 namespace CitroidForSlack
 {
@@ -20,6 +22,43 @@ namespace CitroidForSlack
 		/// Slack Web APIの基底URLです。
 		/// </summary>
 		public static readonly string SLACK_WEBAPI_BASE_URL = "https://slack.com/api/";
+		
+		/// <summary>
+		/// このBotの名前です。
+		/// </summary>
+		public static readonly string NAME = "Citroid";
+
+		/// <summary>
+		/// このBotのバージョンです。
+		/// </summary>
+		public static readonly string VERSION = "1.1.0";
+
+		/// <summary>
+		/// ヘルプの表示につかう線です。
+		/// </summary>
+		public static readonly string LINE = "==--++--==--++--==--++--==";
+
+
+		/// <summary>
+		/// ヘルプのヘッダーです。
+		/// </summary>
+		public static string HelpHeader =>
+			$"{NAME} v{VERSION}\n" +
+			$"{LINE}\n" +
+			$"{NAME.ToLower()} help      => このヘルプを表示します\n" +
+			$"{NAME.ToLower()} changelog => 更新履歴を表示します\n";
+
+		public static string HelpFooter =>
+			"(C)2017 Citrine with GitHub contributors\n" +
+			"GitHub: ttps://github.com/citringo/citroid";
+
+		public static string ChangeLog =>
+			"v1.1.0:\n" +
+			"  - ヘルプ 組込みコマンドの追加\n" +
+			"  - 更新履歴 組込みコマンドの追加\n" +
+			"  - 淫夢要素は *ありません*\n" +
+			"v1.0.0:\n" +
+			"  - 初回公開";
 
 		/// <summary>
 		/// ユーザー名とIDの辞書です。
@@ -181,6 +220,9 @@ namespace CitroidForSlack
 							if (m.bot_id != null && m.user == Id)
 								break;
 
+							if (await RunEmbeddedCommandAsync(m))
+								break;
+
 							foreach (IMessageBot bot in _bots)
 								if (bot.CanExecute(m))
 									await bot.RunAsync(m, this);
@@ -192,6 +234,43 @@ namespace CitroidForSlack
 
 			ws.Open();
 
+		}
+
+		public static readonly Regex EmbeddedCommandHelp = new Regex(@"^\s*citroid\s+help\s*$", RegexOptions.IgnorePatternWhitespace);
+		public static readonly Regex EmbeddedCommandChangelog = new Regex(@"^\s*citroid\s+changelog\s*$");
+
+
+		/// <summary>
+		/// 組み込みコマンドが含まれているか検証し、存在すれば実行します。
+		/// </summary>
+		/// <param name="m">対象の発言。</param>
+		/// <returns>組み込みコマンドが実行されれば<see cref="true"/>、されなければ<see cref="false"/>を返します。</returns>
+		private async Task<bool> RunEmbeddedCommandAsync(Message m)
+		{
+			// static メソッドで十分だったなァ！！！！！！(殺意)
+			if (EmbeddedCommandHelp.IsMatch(m.text))
+			{
+				var sb = new StringBuilder();
+				sb.AppendLine(HelpHeader);
+				sb.AppendLine(LINE);
+				foreach (IBot bot in _bots)
+				{
+					sb.AppendLine($"{bot.Name} v{bot.Version}");
+					sb.AppendLine(bot.Help);
+					sb.AppendLine(LINE);
+				}
+				sb.AppendLine(HelpFooter);
+				await PostAsync(m.channel, sb.ToString());
+				return true;
+			}
+			// static メソッｄ(ry
+			if (EmbeddedCommandChangelog.IsMatch(m.text))
+			{
+				await PostAsync(m.channel, ChangeLog);
+				return true;
+			}
+
+			return false;
 		}
 
 		private async Task RegisterMessageBotAsync(IBot bot)

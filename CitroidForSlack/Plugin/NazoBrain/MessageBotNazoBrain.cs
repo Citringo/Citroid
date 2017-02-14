@@ -27,6 +27,13 @@ namespace CitroidForSlack
 
 		public NazoBrainConfig Config => config;
 
+		public string Name => "NazoBrain";
+		public string Version => "1.0.0";
+		public string Copyright => "(C)2017 Citrine";
+
+		public string Help =>
+			"発言を学習し:thinking_face:、蓄えた語彙を使ってリプライに返信します。:speech_balloon:\n" +
+			"Botの設定:gear:次第でリプライ無しでも発言します:muscle:";
 
 		void Learn(string text) => Learn(text, DateTime.Now);
 
