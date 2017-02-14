@@ -54,7 +54,7 @@ namespace CitroidGui
 				while (string.IsNullOrEmpty(config?.Token))
 					config.Token = Interaction.InputBox("Citroid へようこそ。\r\n今すぐトークンを入力して、Slack エクスペリエンスを体感しよう。", "Citroid");
 				File.WriteAllText("config.json", JsonConvert.SerializeObject(config));
-				cr = await Citroid.CreateAsync(config.Token, bot = new MessageBotNazoBrain());
+				cr = await Citroid.CreateAsync(config.Token, bot = new MessageBotNazoBrain(), new MessageBotCitDealer());
 				Enabled = true;
 				update();
 				trackBar1.Enabled = !(checkBox1.Checked = bot.Config.ReplyOnly);

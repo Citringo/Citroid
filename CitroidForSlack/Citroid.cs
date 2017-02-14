@@ -106,7 +106,7 @@ namespace CitroidForSlack
 		{
 			if (UserDictionary.ContainsKey(id))
 				return UserDictionary[id];
-			return "slackbot";
+			return "NONAME";
 		}
 
 		/// <summary>

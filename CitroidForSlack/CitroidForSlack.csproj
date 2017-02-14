@@ -61,6 +61,7 @@
     <Compile Include="Api\ICitroid.cs" />
     <Compile Include="Exception\InternalException.cs" />
     <Compile Include="Api\Message.cs" />
+    <Compile Include="Plugin\CitDealer\MessageBotCitDealer.cs" />
     <Compile Include="Plugin\NazoBrain\MessageBotNazoBrain.cs" />
     <Compile Include="Extension\NameValueCollectionExtension.cs" />
     <Compile Include="Plugin\NazoBrain\NazoBrainConfig.cs" />
