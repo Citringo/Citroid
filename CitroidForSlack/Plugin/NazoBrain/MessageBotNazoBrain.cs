@@ -33,7 +33,9 @@ namespace CitroidForSlack
 
 		public string Help =>
 			"発言を学習し:thinking_face:、蓄えた語彙を使ってリプライに返信します。:speech_balloon:\n" +
-			"Botの設定:gear:次第でリプライ無しでも発言します:muscle:";
+			"Botの設定:gear:次第でリプライ無しでも発言します:muscle:\n" +
+			"\n" +
+			"この bot には淫夢要素などはありません。";
 
 		void Learn(string text) => Learn(text, DateTime.Now);
 
@@ -157,6 +159,9 @@ namespace CitroidForSlack
 
 		public bool CanExecute(Message mes) => true;
 
+		private bool isActive = true;
+		
+
 		public async Task RunAsync(Message mes, ICitroid citroid)
 		{
             
@@ -178,8 +183,7 @@ namespace CitroidForSlack
 						//	return;
 						//}
 						await citroid.PostAsync(mes.channel, $"落ちますﾉｼ！");
-						await citroid.PostAsync(mes.channel, $"*Citroid が退室しました*");
-						citroid.IsActive = false;
+						isActive = false;
 					}
 					else
 						await citroid.PostAsync(mes.channel, $"<@{username}> は親じゃないなー");
@@ -191,19 +195,62 @@ namespace CitroidForSlack
 					{
 						await citroid.PostAsync(mes.channel, $"*Citroid が入室しました*");
 						await citroid.PostAsync(mes.channel, $"Yo");
-						citroid.IsActive = true;
+						isActive = true;
 					}
 					return;
 				}
+				else if (mes.text.Contains("注意喚起"))
+				{
+					// 警告防止
+					Task<Task> @void = Task.Factory.StartNew(async () =>
+					{
+						// ゆうさく注意喚起シリーズ
+						PostedMessage post = await citroid.PostAsync(mes.channel, ":simple_smile:" + new string(' ', 20) + ":bee:");
+						for (var i = 19; i >= 0; i -= 2)
+						{
+							// ビンにかかるだいたいの時間
+							await Task.Delay(150);
+
+							post = await post.UpdateAsync(":simple_smile:" + new string(' ', i) + ":bee:");
+						}
+						// ビンにかかるだいたいの時間
+						await Task.Delay(330);
+
+						post = await post.UpdateAsync(":simple_smile:");
+						// チクにかかるだいたいの時間
+						await Task.Delay(1000);
+
+						post = await post.UpdateAsync(":scream:");
+						// ｱｱｱｱｱｱｱｱｱｱ にかかるだいたいの時間
+						await Task.Delay(2000);
+
+						post = await post.UpdateAsync(":upside_down_face:");
+						//ｱｰｲｸｯ にかかるだいたいの時間
+						await Task.Delay(1000);
+
+						post = await post.UpdateAsync(":skull:");
+						//ﾁｰﾝ (ウ　ン　チ　ー　コ　ン　グ) にかかるだいたいの時間
+						await Task.Delay(2000);
+
+						//背景が黒くなって3人に増えて音が流れて注意喚起する処理
+						post = await post.UpdateAsync(@"スズメバチには気をつけよう！
+　　　　  :simple_smile::simple_smile::simple_smile:");
+					});
+					return;
+				}
 				await Task.Delay(1000);
-				await citroid.PostAsync(mes.channel, $"<@{username}> {Say(mes.text)}");
+
+				if (isActive)
+					await citroid.PostAsync(mes.channel, $"<@{username}> {Say(mes.text)}");
                
 			}
 			else if (!config.ReplyOnly && config.PostRate > 0 && r.Next((int)(1 / config.PostRate)) == 0)
 			{
                 mes.text = mes.text.Replace($"<@{citroid.Id}>", "");
                 await Task.Delay(2000);
-				await citroid.PostAsync(mes.channel, Say(mes.text));
+
+				if (isActive)
+					await citroid.PostAsync(mes.channel, Say(mes.text));
 			}
             if (mes.subtype != "bot_message")
                 Learn(mes.text, long.Parse(mes.ts.Split('.')[0]).ToDateTime());

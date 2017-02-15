@@ -13,6 +13,10 @@ using System.Text;
 
 namespace CitroidForSlack
 {
+
+	public delegate void ReactionEventHandler(ICitroid sender, Reaction e);
+
+
 	/// <summary>
 	/// 拡張可能な Slack クライアント機能を提供します。
 	/// </summary>
@@ -31,13 +35,12 @@ namespace CitroidForSlack
 		/// <summary>
 		/// このBotのバージョンです。
 		/// </summary>
-		public static readonly string VERSION = "1.1.0";
+		public static readonly string VERSION = "1.2.0beta";
 
 		/// <summary>
 		/// ヘルプの表示につかう線です。
 		/// </summary>
-		public static readonly string LINE = "==--++--==--++--==--++--==";
-
+		public static readonly string LINE = "--------------------------";
 
 		/// <summary>
 		/// ヘルプのヘッダーです。
@@ -53,6 +56,10 @@ namespace CitroidForSlack
 			"GitHub: ttps://github.com/citringo/citroid";
 
 		public static string ChangeLog =>
+			"v1.2.0:\n" +
+			"  - CitDealer (beta) が登場 ―― Citroid に新たなエンターテイメント。" +
+			"  - PostMessage API が更新され、メッセージの編集もメソッドチェーンで可能に。" +
+			"  - NazoBrain のかむひーや, ぼんぼやーじゅ機能を改善" +
 			"v1.1.0:\n" +
 			"  - ヘルプ 組込みコマンドの追加\n" +
 			"  - 更新履歴 組込みコマンドの追加\n" +
@@ -100,8 +107,6 @@ namespace CitroidForSlack
 		/// <summary>
 		/// 内部 ID からユーザー名を取得します。
 		/// </summary>
-		/// <param name="id"></param>
-		/// <returns></returns>
 		public string GetUser(string id)
 		{
 			if (UserDictionary.ContainsKey(id))
@@ -136,15 +141,9 @@ namespace CitroidForSlack
 		/// <summary>
 		/// Slack にメッセージを送信します。
 		/// </summary>
-		/// <param name="channel"></param>
-		/// <param name="text"></param>
-		/// <param name="userName"></param>
-		/// <param name="iconUrl"></param>
-		/// <param name="iconEmoji"></param>
-		/// <returns></returns>
-		public async Task PostAsync(string channel, string text, string userName = "", string iconUrl = "", string iconEmoji = "")
+		public async Task<PostedMessage> PostAsync(string channel, string text, string userName = "", string iconUrl = "", string iconEmoji = "")
 		{
-			await RequestAsync("chat.postMessage", new NameValueCollection
+			return (await RequestAsync("chat.postMessage", new NameValueCollection
 			{
 				{ "channel", channel},
 				{ "text", text },
@@ -152,7 +151,7 @@ namespace CitroidForSlack
 				{"as_user", string.IsNullOrEmpty(userName) ? "true" : "false" },
 				{"icon_url", iconUrl ?? "" },
 				{ "icon_emoji", iconEmoji ?? ""}
-			});
+			})).ToObject<PostedMessage>().Roid(this);
 		}
 
 		/// <summary>

@@ -12,6 +12,16 @@
 		public string subtype { get; set; }
 		public string bot_id { get; set; }
 		public string username { get; set; }
+
+		private ICitroid citroid;
+
+		public Message Roid(ICitroid roid)
+		{
+			citroid = roid;
+			return this;
+		}
+
+		public 
 	}
 
 }
