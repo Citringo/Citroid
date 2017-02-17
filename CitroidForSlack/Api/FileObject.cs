@@ -4,6 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
+using System.Net;
+using System.IO;
 
 namespace CitroidForSlack
 {
@@ -55,7 +58,19 @@ namespace CitroidForSlack
 		public string[] pinned_to { get; set; }
 		public JObject[] reactions { get; set; }
 		public int comments_count { get; set; }
+		private ICitroid _citroid;
+		internal FileObject Roid(ICitroid citroid)
+		{
+			_citroid = citroid;
+			return this;
+		}
 
+		public async Task DownloadAsync(string folderPath)
+		{
+			var wc = new WebClient();
+			wc.Headers.Add("Authorization", "Bearer " + _citroid.Token);
+			await wc.DownloadFileTaskAsync(url_private_download, Path.Combine(folderPath + name));
+		}
 
 	}
 }

@@ -17,7 +17,7 @@ namespace CitroidForSlack
 {
 
 	public delegate void ReactionEventHandler(ICitroid sender, Reaction e);
-
+	public delegate void FileEventHandler(ICitroid sender, FileObject e);
 
 	/// <summary>
 	/// 拡張可能な Slack クライアント機能を提供します。
@@ -106,6 +106,8 @@ namespace CitroidForSlack
 
 		public event ReactionEventHandler ReactionAdded;
 		public event ReactionEventHandler ReactionRemoved;
+		public event FileEventHandler FileShared;
+
 		/// <summary>
 		/// この Citroid がAPIへの接続に使用するトークンを取得します。
 		/// </summary>
@@ -246,6 +248,12 @@ namespace CitroidForSlack
 						{
 							Reaction r = await Task.Factory.StartNew(() => JsonConvert.DeserializeObject<Reaction>(e.Message));
 							ReactionRemoved?.Invoke(this, r);
+						}
+						break;
+					case "file_shared":
+						{
+							FileObject fo = await Task.Factory.StartNew(() => json.GetValue("file").Value<FileObject>().Roid(this));
+							FileShared?.Invoke(this, fo);
 						}
 						break;
 				}

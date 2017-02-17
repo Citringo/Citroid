@@ -20,7 +20,7 @@ namespace CitroidForSlack
 
 		public void Exit(ICitroid citroid) { }
 
-		public async Task InitializeAsync(ICitroid citroid) { }
+		public Task InitializeAsync(ICitroid citroid) => Task.Delay(0);
 
 		public async Task RunAsync(Message mes, ICitroid citroid)
 		{
