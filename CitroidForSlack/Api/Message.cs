@@ -18,7 +18,7 @@ namespace CitroidForSlack
 
 		private ICitroid citroid;
 
-		public Message Roid(ICitroid roid)
+		internal Message Roid(ICitroid roid)
 		{
 			citroid = roid;
 			return this;

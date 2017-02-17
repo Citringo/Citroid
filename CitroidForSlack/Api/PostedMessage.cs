@@ -34,7 +34,7 @@ namespace CitroidForSlack
 		public event MessageReactionEventHandler ReactionAdded;
 		public event MessageReactionEventHandler ReactionRemoved;
 
-		public PostedMessage Roid(ICitroid citroid)
+		internal PostedMessage Roid(ICitroid citroid)
 		{
 			Citroid = citroid;
 			citroid.ReactionAdded += (sender, e) =>

@@ -3,13 +3,7 @@ using Microsoft.VisualBasic;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace CitroidGui
@@ -26,10 +20,10 @@ namespace CitroidGui
 		{
 			InitializeComponent();
 			MessageBotNazoBrain bot = null;
-			this.Enabled = false;
+			Enabled = false;
 			Citroid cr = null;
 			Visible = false;
-			Config config = new Config();
+			var config = new Config();
 			void update()
 			{
 				if (bot == null)
