@@ -38,5 +38,10 @@ namespace CitroidForSlack
 		/// <param name="query">トークン以外に追加するクエリ。</param>
 		/// <returns></returns>
 		Task<JObject> RequestAsync(string method, NameValueCollection query = null);
+
+		event ReactionEventHandler ReactionAdded;
+		event ReactionEventHandler ReactionRemoved;
+
+
 	}
 }

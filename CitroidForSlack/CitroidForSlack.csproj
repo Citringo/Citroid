@@ -36,6 +36,12 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="GroorineCore">
+      <HintPath>..\Dependency\GroorineCore.DotNet45\GroorineCore.dll</HintPath>
+    </Reference>
+    <Reference Include="GroorineCore.DotNet45">
+      <HintPath>..\Dependency\GroorineCore.DotNet45\GroorineCore.DotNet45.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -55,6 +61,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Api\FileObject.cs" />
     <Compile Include="Extension\Extensions.cs" />
     <Compile Include="Api\IBot.cs" />
     <Compile Include="Api\IMessageBot.cs" />
@@ -62,6 +69,7 @@
     <Compile Include="Exception\InternalException.cs" />
     <Compile Include="Api\Message.cs" />
     <Compile Include="Plugin\CitDealer\MessageBotCitDealer.cs" />
+    <Compile Include="Plugin\Groorine\MessageBotGroorine.cs" />
     <Compile Include="Plugin\NazoBrain\MessageBotNazoBrain.cs" />
     <Compile Include="Extension\NameValueCollectionExtension.cs" />
     <Compile Include="Plugin\NazoBrain\NazoBrainConfig.cs" />

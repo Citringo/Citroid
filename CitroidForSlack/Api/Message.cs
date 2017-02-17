@@ -1,4 +1,7 @@
-﻿namespace CitroidForSlack
+﻿using System.Collections.Specialized;
+using System.Threading.Tasks;
+
+namespace CitroidForSlack
 {
 
 	public class Message
@@ -21,7 +24,25 @@
 			return this;
 		}
 
-		public 
+		public async Task AddReactionAsync(string emoji)
+		{
+			await citroid.RequestAsync("reactions.add", new NameValueCollection
+			{
+				{ "name", emoji },
+				{"timestamp", ts },
+				{"channel", channel }
+			});
+		}
+
+		public async Task RemoveReactionAsync(string emoji)
+		{
+			await citroid.RequestAsync("reactions.remove", new NameValueCollection
+			{
+				{ "name", emoji },
+				{"timestamp", ts },
+				{"channel", channel }
+			});
+		}
 	}
 
 }

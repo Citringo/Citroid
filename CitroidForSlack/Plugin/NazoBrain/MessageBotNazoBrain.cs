@@ -235,14 +235,14 @@ namespace CitroidForSlack
 						//背景が黒くなって3人に増えて音が流れて注意喚起する処理
 						post = await post.UpdateAsync(@"スズメバチには気をつけよう！
 　　　　  :simple_smile::simple_smile::simple_smile:");
-					});
+						});
 					return;
 				}
 				await Task.Delay(1000);
 
 				if (isActive)
 					await citroid.PostAsync(mes.channel, $"<@{username}> {Say(mes.text)}");
-               
+
 			}
 			else if (!config.ReplyOnly && config.PostRate > 0 && r.Next((int)(1 / config.PostRate)) == 0)
 			{

@@ -10,6 +10,8 @@ using WebSocket4Net;
 using System;
 using System.Text.RegularExpressions;
 using System.Text;
+using System.IO;
+using System.Web;
 
 namespace CitroidForSlack
 {
@@ -60,6 +62,9 @@ namespace CitroidForSlack
 			"  - CitDealer (beta) が登場 ―― Citroid に新たなエンターテイメント。" +
 			"  - PostMessage API が更新され、メッセージの編集もメソッドチェーンで可能に。" +
 			"  - NazoBrain のかむひーや, ぼんぼやーじゅ機能を改善" +
+			"  - リアクションの追加/削除および、リアクションに関するイベント ハンドラの実装" +
+			"  - ファイルアップロードおよび、ファイル共有に関するイベント ハンドラの実装" + 
+			"  - Herobrine の削除" +
 			"v1.1.0:\n" +
 			"  - ヘルプ 組込みコマンドの追加\n" +
 			"  - 更新履歴 組込みコマンドの追加\n" +
@@ -99,6 +104,8 @@ namespace CitroidForSlack
 				bot.Exit(this);
 		}
 
+		public event ReactionEventHandler ReactionAdded;
+		public event ReactionEventHandler ReactionRemoved;
 		/// <summary>
 		/// この Citroid がAPIへの接続に使用するトークンを取得します。
 		/// </summary>
@@ -175,7 +182,7 @@ namespace CitroidForSlack
 		/// <returns></returns>
 		private async Task InternalInitAsync(params IBot[] bots)
 		{
-			
+
 			JObject j = await RequestAsync("rtm.start");
 
 			if (!j["ok"].Value<bool>())
@@ -210,7 +217,7 @@ namespace CitroidForSlack
 				{
 					case "message":
 						{
-							Message m = await Task.Factory.StartNew(() => JsonConvert.DeserializeObject<Message>(e.Message));
+							Message m = await Task.Factory.StartNew(() => JsonConvert.DeserializeObject<Message>(e.Message).Roid(this));
 
 							if (!IsActive || m.subtype != null && m.subtype != "bot_message" && m.subtype != "me_message")
 								break;
@@ -226,6 +233,19 @@ namespace CitroidForSlack
 								if (bot.CanExecute(m))
 									await bot.RunAsync(m, this);
 
+						}
+						break;
+					case "reaction_added":
+						{
+							Reaction r = await Task.Factory.StartNew(() => JsonConvert.DeserializeObject<Reaction>(e.Message));
+
+							ReactionAdded?.Invoke(this, r);
+						}
+						break;
+					case "reaction_removed":
+						{
+							Reaction r = await Task.Factory.StartNew(() => JsonConvert.DeserializeObject<Reaction>(e.Message));
+							ReactionRemoved?.Invoke(this, r);
 						}
 						break;
 				}
@@ -278,6 +298,74 @@ namespace CitroidForSlack
 				return;
 			_bots.Add(bot);
 			await bot.InitializeAsync(this);
+		}
+
+		public async Task UploadFileAsync(string path, string title = "", params string[] channels)
+		{
+			//送信するファイルのパス
+			var fileName = Path.GetFileName(path);
+			//送信先のURL
+			var url = GetApiUrl("files.upload", new NameValueCollection
+			{
+				{ "token", Token },
+				{ "filename", fileName },
+				{ "title", title },
+				{ "channels", string.Join(",", channels) }
+			});
+			//文字コード
+			Encoding enc =
+				Encoding.UTF8;
+			//区切り文字列
+			var boundary = Environment.TickCount.ToString();
+
+			//WebRequestの作成
+			var req = WebRequest.Create(url);
+			//メソッドにPOSTを指定
+			req.Method = "POST";
+			//ContentTypeを設定
+			req.ContentType = $"multipart/form-data; boundary={boundary}";
+			var mime = MimeMapping.GetMimeMapping(fileName);
+			//POST送信するデータを作成
+			var postData = "";
+			postData = $@"--{boundary}
+Content-Disposition: form-data; name=""file""; filename=""{fileName}""
+Content - Type: {mime}
+";
+			//バイト型配列に変換
+			byte[] startData = enc.GetBytes(postData);
+			postData = "\n--" + boundary + "--\n";
+			byte[] endData = enc.GetBytes(postData);
+
+			//送信するファイルを開く
+			var fs = new FileStream(path, FileMode.Open, FileAccess.Read);
+
+			//POST送信するデータの長さを指定
+			req.ContentLength = startData.Length + endData.Length + fs.Length;
+
+			//データをPOST送信するためのStreamを取得
+			Stream reqStream = req.GetRequestStream();
+			//送信するデータを書き込む
+			reqStream.Write(startData, 0, startData.Length);
+			//ファイルの内容を送信
+			byte[] readData = new byte[0x1000];
+			var readSize = 0;
+			while (true)
+			{
+				readSize = fs.Read(readData, 0, readData.Length);
+				if (readSize == 0)
+					break;
+				reqStream.Write(readData, 0, readSize);
+			}
+			fs.Close();
+			reqStream.Write(endData, 0, endData.Length);
+			reqStream.Close();
+
+			//サーバーからの応答を受信するためのWebResponseを取得
+			WebResponse res =
+				await req.GetResponseAsync();
+			//if(((HttpWebResponse)res).StatusCode != 200)
+			Debug.WriteLine(res.Headers);
+			res.Close();
 		}
 
 
