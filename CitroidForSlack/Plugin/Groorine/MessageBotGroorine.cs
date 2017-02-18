@@ -136,14 +136,7 @@ namespace CitroidForSlack
 					_isActive = false;
 					await citroid.PostAsync(mes.channel, ":x: Groorine が無効になりました。");
 				}
-				if (cmd.Contains("hage"))
-				{
-					await citroid.UploadFileAsync(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "hage.mp4"), "アタマフリー", mes.channel);
-				}
 			}
-			if (cmd.Contains("hello"))
-				await citroid.PostAsync(mes.channel, "https://otyakai.slack.com/files/otya/F47D0SQ9K/default.mp4");
-			
 		}
 
 	}
