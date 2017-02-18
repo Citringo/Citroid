@@ -118,6 +118,8 @@ namespace CitroidForSlack
 		/// </summary>
 		public string GetUser(string id)
 		{
+			if (id == null)
+				return "null";
 			if (UserDictionary.ContainsKey(id))
 				return UserDictionary[id];
 			return "NONAME";
@@ -252,7 +254,11 @@ namespace CitroidForSlack
 						break;
 					case "file_shared":
 						{
-							FileObject fo = await Task.Factory.StartNew(() => json.GetValue("file").Value<FileObject>().Roid(this));
+							FileObject fo = await Task.Factory.StartNew(() => JsonConvert.DeserializeObject<FileResponse>(e.Message).file.Roid(this));
+							fo = (await RequestAsync("files.info", new NameValueCollection
+							{
+								{ "file", fo.id },
+							})).GetValue("file").ToObject<FileObject>().Roid(this);
 							FileShared?.Invoke(this, fo);
 						}
 						break;
@@ -326,54 +332,8 @@ namespace CitroidForSlack
 			//区切り文字列
 			var boundary = Environment.TickCount.ToString();
 
-			//WebRequestの作成
-			var req = WebRequest.Create(url);
-			//メソッドにPOSTを指定
-			req.Method = "POST";
-			//ContentTypeを設定
-			req.ContentType = $"multipart/form-data; boundary={boundary}";
-			var mime = MimeMapping.GetMimeMapping(fileName);
-			//POST送信するデータを作成
-			var postData = "";
-			postData = $@"--{boundary}
-Content-Disposition: form-data; name=""file""; filename=""{fileName}""
-Content - Type: {mime}
-";
-			//バイト型配列に変換
-			byte[] startData = enc.GetBytes(postData);
-			postData = "\n--" + boundary + "--\n";
-			byte[] endData = enc.GetBytes(postData);
-
-			//送信するファイルを開く
-			var fs = new FileStream(path, FileMode.Open, FileAccess.Read);
-
-			//POST送信するデータの長さを指定
-			req.ContentLength = startData.Length + endData.Length + fs.Length;
-
-			//データをPOST送信するためのStreamを取得
-			Stream reqStream = req.GetRequestStream();
-			//送信するデータを書き込む
-			reqStream.Write(startData, 0, startData.Length);
-			//ファイルの内容を送信
-			byte[] readData = new byte[0x1000];
-			var readSize = 0;
-			while (true)
-			{
-				readSize = fs.Read(readData, 0, readData.Length);
-				if (readSize == 0)
-					break;
-				reqStream.Write(readData, 0, readSize);
-			}
-			fs.Close();
-			reqStream.Write(endData, 0, endData.Length);
-			reqStream.Close();
-
-			//サーバーからの応答を受信するためのWebResponseを取得
-			WebResponse res =
-				await req.GetResponseAsync();
-			//if(((HttpWebResponse)res).StatusCode != 200)
-			Debug.WriteLine(res.Headers);
-			res.Close();
+			var wc = new WebClient();
+			await wc.UploadFileTaskAsync(url, path);
 		}
 
 

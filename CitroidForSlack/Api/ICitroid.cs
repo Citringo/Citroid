@@ -36,12 +36,29 @@ namespace CitroidForSlack
 		/// </summary>
 		/// <param name="method">Slack Web API メソッド。</param>
 		/// <param name="query">トークン以外に追加するクエリ。</param>
-		/// <returns></returns>
 		Task<JObject> RequestAsync(string method, NameValueCollection query = null);
 
+		/// <summary>
+		/// Slack にファイルをアップロードします。
+		/// </summary>
+		/// <param name="path">アップロードするファイルのパス。</param>
+		/// <param name="title">ファイルにつけるタイトル。</param>
+		/// <param name="channels">共有するチャンネル。複数指定可。</param>
+		Task UploadFileAsync(string path, string title = "", params string[] channels);
+
+		/// <summary>
+		/// リアクションが追加されたときに発生するイベント。
+		/// </summary>
 		event ReactionEventHandler ReactionAdded;
+		
+		/// <summary>
+		/// リアクションが削除されたときに発生するイベント。
+		/// </summary>
 		event ReactionEventHandler ReactionRemoved;
 
-
+		/// <summary>
+		/// ファイルが共有されたときに発生するイベント。
+		/// </summary>
+		event FileEventHandler FileShared;
 	}
 }

@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using System.Net;
 using System.IO;
+using System.Diagnostics;
 
 namespace CitroidForSlack
 {
@@ -69,7 +70,14 @@ namespace CitroidForSlack
 		{
 			var wc = new WebClient();
 			wc.Headers.Add("Authorization", "Bearer " + _citroid.Token);
-			await wc.DownloadFileTaskAsync(url_private_download, Path.Combine(folderPath + name));
+			try
+			{
+				await wc.DownloadFileTaskAsync(url_private_download, Path.Combine(folderPath, name));
+			}
+			catch (Exception ex)
+			{
+				Debug.WriteLine(ex.ToString());
+			}
 		}
 
 	}
