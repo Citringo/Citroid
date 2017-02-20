@@ -50,8 +50,10 @@ namespace CitroidForSlack
 		public static string HelpHeader =>
 			$"{NAME} v{VERSION}\n" +
 			$"{LINE}\n" +
-			$"{NAME.ToLower()} help      => このヘルプを表示します\n" +
-			$"{NAME.ToLower()} changelog => 更新履歴を表示します\n";
+			$"{NAME.ToLower()} help           => このヘルプを表示します\n" +
+			$"{NAME.ToLower()} help <botname> => Botのヘルプを表示します\n" +
+			$"{NAME.ToLower()} bot            => Botの一覧を表示します\n" +
+			$"{NAME.ToLower()} changelog      => 更新履歴を表示します\n";
 
 		public static string HelpFooter =>
 			"(C)2017 Citrine with GitHub contributors\n" +
@@ -86,13 +88,6 @@ namespace CitroidForSlack
 		public static string GetApiUrl(string method, NameValueCollection query)
 			=> $"{SLACK_WEBAPI_BASE_URL}{method}?{query.ToQueryString()}";
 		
-		/// <summary>
-		/// インスタンスがガベージコレクションされるときにBotの終了処理を行います。
-		/// </summary>
-		~Citroid()
-		{
-			Close();
-		}
 
 		/// <summary>
 		/// WebSocket の切断および、Botの終了処理を行います。Citroidの終了時に必ず呼び出します。
@@ -269,8 +264,9 @@ namespace CitroidForSlack
 
 		}
 
-		public static readonly Regex EmbeddedCommandHelp = new Regex(@"^\s*citroid\s+help\s*$", RegexOptions.IgnorePatternWhitespace);
-		public static readonly Regex EmbeddedCommandChangelog = new Regex(@"^\s*citroid\s+changelog\s*$");
+		public static readonly Regex EmbeddedCommandHelp = new Regex(@"^\s*citroid\s+help\s*(.*)$", RegexOptions.IgnoreCase);
+		public static readonly Regex EmbeddedCommandChangelog = new Regex(@"^\s*citroid\s+changelog\s*$", RegexOptions.IgnoreCase);
+		public static readonly Regex EmbeddedCommandBot = new Regex(@"^\s*citroid\s+bot\s*$", RegexOptions.IgnoreCase);
 
 
 		/// <summary>
@@ -280,30 +276,47 @@ namespace CitroidForSlack
 		/// <returns>組み込みコマンドが実行されれば<see cref="true"/>、されなければ<see cref="false"/>を返します。</returns>
 		private async Task<bool> RunEmbeddedCommandAsync(Message m)
 		{
-			// static メソッドで十分だったなァ！！！！！！(殺意)
-			if (EmbeddedCommandHelp.IsMatch(m.text))
+			Match ma = EmbeddedCommandHelp.Match(m.text);
+			if (ma.Success)
 			{
+
 				var sb = new StringBuilder();
-				sb.AppendLine(HelpHeader);
-				sb.AppendLine(LINE);
-				foreach (IBot bot in _bots)
+
+				if (ma.Groups[1].Value is string botname)
 				{
+					botname = botname.Trim();
+					IBot bot = _bots.FirstOrDefault(b => b.Name == botname);
+					if (bot == null)
+					{
+						await PostAsync(m.channel, $"Bot \"{botname}\"は存在しません。");
+						return false;
+					}
 					sb.AppendLine($"{bot.Name} v{bot.Version}");
 					sb.AppendLine(bot.Help);
-					sb.AppendLine(LINE);
 				}
-				sb.AppendLine(HelpFooter);
+				else
+				{
+					sb.AppendLine(HelpHeader);
+					sb.AppendLine(LINE);
+					foreach (IBot bot in _bots)
+					{
+						sb.AppendLine($"{bot.Name} v{bot.Version}");
+						sb.AppendLine(bot.Help);
+						sb.AppendLine(LINE);
+					}
+					sb.AppendLine(HelpFooter);
+				}
 				await PostAsync(m.channel, sb.ToString());
-				return true;
 			}
-			// static メソッｄ(ry
-			if (EmbeddedCommandChangelog.IsMatch(m.text))
+			// static メソッドで十分だったなァ！！！！！！(殺意)
+			else if (EmbeddedCommandChangelog.IsMatch(m.text))
 			{
 				await PostAsync(m.channel, ChangeLog);
-				return true;
 			}
+			else
+				return false;
 
-			return false;
+			return true;
 		}
 
 		private async Task RegisterMessageBotAsync(IBot bot)

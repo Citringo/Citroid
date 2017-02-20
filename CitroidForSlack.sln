@@ -10,15 +10,20 @@ EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
+		Debug-Citserver|Any CPU = Debug-Citserver|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{6F129D57-E663-4D81-B5E5-77604065AB49}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{6F129D57-E663-4D81-B5E5-77604065AB49}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6F129D57-E663-4D81-B5E5-77604065AB49}.Debug-Citserver|Any CPU.ActiveCfg = Debug-Citserver|Any CPU
+		{6F129D57-E663-4D81-B5E5-77604065AB49}.Debug-Citserver|Any CPU.Build.0 = Debug-Citserver|Any CPU
 		{6F129D57-E663-4D81-B5E5-77604065AB49}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6F129D57-E663-4D81-B5E5-77604065AB49}.Release|Any CPU.Build.0 = Release|Any CPU
 		{5A316A5D-60ED-4D91-AC13-4C408507FBDC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{5A316A5D-60ED-4D91-AC13-4C408507FBDC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5A316A5D-60ED-4D91-AC13-4C408507FBDC}.Debug-Citserver|Any CPU.ActiveCfg = Debug-Citserver|Any CPU
+		{5A316A5D-60ED-4D91-AC13-4C408507FBDC}.Debug-Citserver|Any CPU.Build.0 = Debug-Citserver|Any CPU
 		{5A316A5D-60ED-4D91-AC13-4C408507FBDC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5A316A5D-60ED-4D91-AC13-4C408507FBDC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
