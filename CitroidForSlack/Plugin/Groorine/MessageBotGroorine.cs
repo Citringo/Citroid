@@ -96,6 +96,7 @@ namespace CitroidForSlack
 			Track curTrack = null;
 			// MIDI Channel
 			byte? channel = null;
+			double dlen = 0;
 			var ties = new List<(Pitch, double)>();
 			
 			void AddChannel()
@@ -115,9 +116,9 @@ namespace CitroidForSlack
 			// データをMIDI信号の範囲(0～127)に収めます。
 			byte SnapToMidiValue(int value) => (byte)(value < 0 ? 0 : value > 127 ? 127 : value);
 
-			void Add(Pitch p, int o, double dlen)
+			void Add(Pitch p, int o, double dl)
 			{
-				curTrack.Events.Add(new NoteEvent { Channel = channel ?? 0, Velocity = 100, Tick = tick, Note = SnapToMidiValue(+ 12 * oct + (int)pitch), Gate = (int)dlen });
+				curTrack.Events.Add(new NoteEvent { Channel = channel ?? 0, Velocity = 100, Tick = tick, Note = SnapToMidiValue(+ 12 * oct + (int)pitch), Gate = (int)dl });
 				tick += (int)dlen;
 			}
 
@@ -284,7 +285,7 @@ namespace CitroidForSlack
 					{
 						if (num == -1 || num == 0)
 							num = deflen;
-						double dlen = MmlLengthToMidiTick(num);
+						dlen = MmlLengthToMidiTick(num);
 						num = -1;
 						if (m == '.')
 							dlen *= 1.5;
