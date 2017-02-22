@@ -8,7 +8,6 @@ using System.Collections.Specialized;
 using Newtonsoft.Json.Linq;
 using System.IO;
 using Newtonsoft.Json;
-
 namespace CitroidForSlack
 {
 	/// <summary>
@@ -46,11 +45,20 @@ namespace CitroidForSlack
 
 		UnicodeBlock prevBlock;
 
-        /// <summary>
-        /// 文を単語ごとに分割します。
-        /// </summary>
-        /// <param name="text"></param>
-        /// <returns></returns>
+		/// <summary>
+		/// 単語を分割する文字を登録します。
+		/// </summary>
+		public List<string> Divider { get; set; } = new List<string>
+		{
+			"て", "に", "を", "は", "が", "で", "と", "の", "や", "へ", "も",
+			"こ", "そ", "あ", "ど", "、", "。", "，", "．", "！", "？"
+		};
+
+		/// <summary>
+		/// 文を単語ごとに分割します。
+		/// </summary>
+		/// <param name="text"></param>
+		/// <returns></returns>
 		string[] Split(string text)
 		{
 			if (text.Length == 0)
@@ -60,7 +68,7 @@ namespace CitroidForSlack
 			for (var i = 0; i < text.Length; i++)
 			{
 				UnicodeBlock block = text[i].GetBlock();
-				if (Config.Divider.Contains(text[i].ToString()) ||
+				if (Divider.Contains(text[i].ToString()) ||
 					char.IsSeparator(text[i]) || 
 					char.IsSymbol(text[i]))
 				{
