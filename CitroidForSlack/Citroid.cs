@@ -353,7 +353,7 @@ namespace CitroidForSlack
 		private Citroid(string token)
 		{
 			Token = token;
-
+			AppDomain.CurrentDomain.UnhandledException += (sender, e) => Close();
 		}
 
 		private readonly List<IBot> _bots = new List<IBot>();

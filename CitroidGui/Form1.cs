@@ -92,6 +92,19 @@ namespace CitroidGui
 					await bot.LearnFromSlack(cr);
 			};
 
+			AppDomain.CurrentDomain.UnhandledException += (sender, e) =>
+			{
+				var ex = ((Exception)e.ExceptionObject);
+				MessageBox.Show($@"バグかなんかでエラーが起きました！  Ctrl + C でコピーし、作者におしえてください！！
+{ex.GetType().Name}: {ex.Message}
+Stack Trace: {ex.StackTrace}
+{Environment.OSVersion} {(Environment.Is64BitOperatingSystem ? "64Bit" : "")}
+.NET Version: {Environment.Version}
+Machine Name: {Environment.MachineName} UserName: {Environment.UserName}
+CPU Count: {Environment.ProcessorCount} Tick: {Environment.TickCount}");
+				
+			};
+
 
 		}
 	}
