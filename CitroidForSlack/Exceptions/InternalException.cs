@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace CitroidForSlack
+namespace CitroidForSlack.Exceptions
 {
 
 	/// <summary>

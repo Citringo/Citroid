@@ -7,10 +7,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CitroidForSlack", "CitroidF
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CitroidGui", "CitroidGui\CitroidGui.csproj", "{5A316A5D-60ED-4D91-AC13-4C408507FBDC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CitroidCli", "CitroidCli\CitroidCli.csproj", "{15C7A8C4-85ED-4452-B75C-10F227E38B3F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Debug-Citserver|Any CPU = Debug-Citserver|Any CPU
+		Debug-Pcc|Any CPU = Debug-Pcc|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
@@ -18,14 +21,26 @@ Global
 		{6F129D57-E663-4D81-B5E5-77604065AB49}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6F129D57-E663-4D81-B5E5-77604065AB49}.Debug-Citserver|Any CPU.ActiveCfg = Debug-Citserver|Any CPU
 		{6F129D57-E663-4D81-B5E5-77604065AB49}.Debug-Citserver|Any CPU.Build.0 = Debug-Citserver|Any CPU
+		{6F129D57-E663-4D81-B5E5-77604065AB49}.Debug-Pcc|Any CPU.ActiveCfg = Debug-Pcc|Any CPU
+		{6F129D57-E663-4D81-B5E5-77604065AB49}.Debug-Pcc|Any CPU.Build.0 = Debug-Pcc|Any CPU
 		{6F129D57-E663-4D81-B5E5-77604065AB49}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6F129D57-E663-4D81-B5E5-77604065AB49}.Release|Any CPU.Build.0 = Release|Any CPU
 		{5A316A5D-60ED-4D91-AC13-4C408507FBDC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{5A316A5D-60ED-4D91-AC13-4C408507FBDC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5A316A5D-60ED-4D91-AC13-4C408507FBDC}.Debug-Citserver|Any CPU.ActiveCfg = Debug-Citserver|Any CPU
 		{5A316A5D-60ED-4D91-AC13-4C408507FBDC}.Debug-Citserver|Any CPU.Build.0 = Debug-Citserver|Any CPU
+		{5A316A5D-60ED-4D91-AC13-4C408507FBDC}.Debug-Pcc|Any CPU.ActiveCfg = Debug-Pcc|Any CPU
+		{5A316A5D-60ED-4D91-AC13-4C408507FBDC}.Debug-Pcc|Any CPU.Build.0 = Debug-Pcc|Any CPU
 		{5A316A5D-60ED-4D91-AC13-4C408507FBDC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5A316A5D-60ED-4D91-AC13-4C408507FBDC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{15C7A8C4-85ED-4452-B75C-10F227E38B3F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{15C7A8C4-85ED-4452-B75C-10F227E38B3F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{15C7A8C4-85ED-4452-B75C-10F227E38B3F}.Debug-Citserver|Any CPU.ActiveCfg = Debug|Any CPU
+		{15C7A8C4-85ED-4452-B75C-10F227E38B3F}.Debug-Citserver|Any CPU.Build.0 = Debug|Any CPU
+		{15C7A8C4-85ED-4452-B75C-10F227E38B3F}.Debug-Pcc|Any CPU.ActiveCfg = Debug-Pcc|Any CPU
+		{15C7A8C4-85ED-4452-B75C-10F227E38B3F}.Debug-Pcc|Any CPU.Build.0 = Debug-Pcc|Any CPU
+		{15C7A8C4-85ED-4452-B75C-10F227E38B3F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{15C7A8C4-85ED-4452-B75C-10F227E38B3F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -9,7 +9,7 @@ using System.Net;
 using System.IO;
 using System.Diagnostics;
 
-namespace CitroidForSlack
+namespace CitroidForSlack.Api
 {
 	public class FileObject
 	{

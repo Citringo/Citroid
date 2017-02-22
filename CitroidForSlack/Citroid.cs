@@ -12,6 +12,9 @@ using System.Text.RegularExpressions;
 using System.Text;
 using System.IO;
 using System.Web;
+using CitroidForSlack.Api;
+using CitroidForSlack.Exceptions;
+using CitroidForSlack.Extensions;
 
 namespace CitroidForSlack
 {
@@ -87,7 +90,8 @@ namespace CitroidForSlack
 		/// <returns></returns>
 		public static string GetApiUrl(string method, NameValueCollection query)
 			=> $"{SLACK_WEBAPI_BASE_URL}{method}?{query.ToQueryString()}";
-		
+
+		~Citroid() => Close();
 
 		/// <summary>
 		/// WebSocket の切断および、Botの終了処理を行います。Citroidの終了時に必ず呼び出します。

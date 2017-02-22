@@ -8,7 +8,11 @@ using System.Collections.Specialized;
 using Newtonsoft.Json.Linq;
 using System.IO;
 using Newtonsoft.Json;
-namespace CitroidForSlack
+using CitroidForSlack.Api;
+using CitroidForSlack.Extensions;
+using CitroidForSlack.Plugins.CitDealer;
+
+namespace CitroidForSlack.Plugins.NazoBrain
 {
 	/// <summary>
 	/// 謎の学習を行い謎の会話を行う謎のBot。
@@ -311,6 +315,7 @@ namespace CitroidForSlack
 					if (subtype == "bot_message")
 						continue;
 					//if (mes["user"] != null && citroid.GetUser(mes["user"].Value<string>()) == "citrine")
+
 					Learn(mes["text"].Value<string>(), long.Parse(mes["ts"].Value<string>().Split('.')[0]).ToDateTime());
 
 				}
@@ -325,6 +330,4 @@ namespace CitroidForSlack
 
 		}
 	}
-
-
 }

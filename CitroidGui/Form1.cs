@@ -1,4 +1,8 @@
 ﻿using CitroidForSlack;
+using CitroidForSlack.Plugins.CitDealer;
+using CitroidForSlack.Plugins.Groorine;
+using CitroidForSlack.Plugins.NazoBrain;
+using CitroidForSlack.Plugins.Utiline;
 using Microsoft.VisualBasic;
 using Newtonsoft.Json;
 using System;
@@ -30,7 +34,8 @@ namespace CitroidGui
 					return;
 				treeView1.BeginUpdate();
 				treeView1.Nodes.Clear();
-				foreach (KeyValuePair<string, Word> k in bot.WordBrain)
+				foreach (KeyValuePair<string, 
+					Word> k in bot.WordBrain)
 				{
 					var t = new TreeNode($"Word {k.Value.MyText}");
 					foreach (WordCandidate wc in k.Value.Candidates)

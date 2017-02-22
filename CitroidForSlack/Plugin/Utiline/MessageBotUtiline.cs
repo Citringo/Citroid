@@ -1,4 +1,9 @@
-﻿using Newtonsoft.Json;
+﻿using CitroidForSlack.Api;
+using CitroidForSlack.Plugin.Utiline.Replies;
+using CitroidForSlack.Plugins.Utiline.Api;
+using CitroidForSlack.Plugins.Utiline.Exceptions;
+using CitroidForSlack.Utiline.Commands;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -8,79 +13,8 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace CitroidForSlack
+namespace CitroidForSlack.Plugins.Utiline
 {
-
-
-	[Serializable]
-	public class ParseCommandException : Exception
-	{
-		public ParseCommandException() { }
-		public ParseCommandException(string message) : base(message) { }
-		public ParseCommandException(string message, Exception inner) : base(message, inner) { }
-		protected ParseCommandException(
-		  System.Runtime.Serialization.SerializationInfo info,
-		  System.Runtime.Serialization.StreamingContext context) : base(info, context) { }
-	}
-
-
-	[Serializable]
-	public class WrongUsageException : Exception
-	{
-		public WrongUsageException() { }
-		public WrongUsageException(string message) : base(message) { }
-		public WrongUsageException(string message, Exception inner) : base(message, inner) { }
-		protected WrongUsageException(
-		  System.Runtime.Serialization.SerializationInfo info,
-		  System.Runtime.Serialization.StreamingContext context) : base(info, context) { }
-	}
-
-
-	[Serializable]
-	public class IllegalCommandCallException : Exception
-	{
-		public IllegalCommandCallException() { }
-		public IllegalCommandCallException(string message) : base(message) { }
-		public IllegalCommandCallException(string message, Exception inner) : base(message, inner) { }
-		protected IllegalCommandCallException(
-		  System.Runtime.Serialization.SerializationInfo info,
-		  System.Runtime.Serialization.StreamingContext context) : base(info, context) { }
-	}
-
-	public abstract class UtilineReplyBase
-	{
-		protected string _pattern;
-		protected string _reply;
-		public string Pattern => _pattern;
-		public string Replacement => _reply;
-		public string UserName { get; }
-		public string UserEmoji { get; }
-		public abstract bool Match(string input);
-		public UtilineReplyBase(string pattern, string reply, string name = "", string emoji = "")
-		{
-			_pattern = pattern;
-			_reply = reply;
-			UserName = name;
-			UserEmoji = emoji;
-		}
-		public abstract string Reply(string input);
-
-		public override string ToString() => $"{Pattern} => {Replacement}";
-	}
-
-	public class Alias
-	{
-		public string Name { get; set; }
-		public string CommandName { get; set; }
-		public string[] Arguments { get; set; }
-
-		public Alias(string name, string cmdName, string[] args)
-		{
-			Name = name;
-			CommandName = cmdName;
-			Arguments = args;
-		}
-	}
 
 	public class MessageBotUtiline : IMessageBot
 	{
@@ -392,40 +326,5 @@ namespace CitroidForSlack
 					await citroid.PostAsync(mes.channel, r.Reply(mes.text), r.UserName ?? "", "", r.UserEmoji ?? "");
 			}
 		}
-	}
-
-	
-
-	class UtilineReplyPerfect : UtilineReplyBase
-	{
-		public UtilineReplyPerfect(string pattern, string reply, string name = "", string emoji = "") : base(pattern, reply, name, emoji) { }
-
-		public override bool Match(string input) => input == _pattern;
-
-		public override string Reply(string input) => _reply;
-
-		public override string ToString() => "完全一致: " + base.ToString();
-	}
-
-	class UtilineReplyPartial : UtilineReplyBase
-	{
-		public UtilineReplyPartial(string pattern, string reply, string name = "", string emoji = "") : base(pattern, reply, name, emoji) { }
-
-		public override bool Match(string input) => input.Contains(_pattern);
-
-		public override string Reply(string input) => _reply;
-
-		public override string ToString() => "部分一致: " + base.ToString();
-	}
-
-	class UtilineReplyRegex : UtilineReplyBase
-	{
-		public UtilineReplyRegex(string pattern, string reply, string name = "", string emoji = "") : base(pattern, reply, name, emoji) { }
-
-		public override bool Match(string input) => Regex.IsMatch(input, _pattern);
-
-		public override string Reply(string input) => Regex.Match(input, _pattern).Result(_reply);
-
-		public override string ToString() => "正規表現一致: " + base.ToString();
 	}
 }

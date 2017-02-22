@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace CitroidForSlack
+namespace CitroidForSlack.Exceptions
 {
 	/// <summary>
 	/// Slack からエラーが返されたときに発生する例外。

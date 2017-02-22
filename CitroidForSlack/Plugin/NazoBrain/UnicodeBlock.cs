@@ -1,4 +1,4 @@
-﻿namespace CitroidForSlack
+﻿namespace CitroidForSlack.Plugins.NazoBrain
 {
     public enum UnicodeBlock
 	{

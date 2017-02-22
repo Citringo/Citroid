@@ -4,7 +4,7 @@ using System.Collections.Specialized;
 using System.Threading.Tasks;
 using System;
 
-namespace CitroidForSlack
+namespace CitroidForSlack.Api
 {
 	public delegate void MessageReactionEventHandler(string emoji, string user);
 

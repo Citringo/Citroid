@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 using System.Runtime.InteropServices;
 using System.Diagnostics;
 
-namespace CitroidForSlack
+namespace CitroidForSlack.Plugins.NazoBrain
 {
 
     [Serializable]

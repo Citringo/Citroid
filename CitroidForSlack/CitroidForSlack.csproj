@@ -53,6 +53,15 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug-Pcc|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Debug-Pcc\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="CoreTweet, Version=0.7.2.352, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\CoreTweet.0.7.2.352\lib\net45\CoreTweet.dll</HintPath>
@@ -90,26 +99,45 @@
   <ItemGroup>
     <Compile Include="Api\FileObject.cs" />
     <Compile Include="Api\FileResponse.cs" />
-    <Compile Include="Extension\Extensions.cs" />
+    <Compile Include="Extensions\Extensions.cs" />
     <Compile Include="Api\IBot.cs" />
     <Compile Include="Api\IMessageBot.cs" />
     <Compile Include="Api\ICitroid.cs" />
-    <Compile Include="Exception\InternalException.cs" />
+    <Compile Include="Exceptions\InternalException.cs" />
     <Compile Include="Api\Message.cs" />
+    <Compile Include="ManagerConsole\CommandManager.cs" />
+    <Compile Include="Extensions\LinqExtension.cs" />
     <Compile Include="Plugin\CitDealer\MessageBotCitDealer.cs" />
     <Compile Include="Plugin\Groorine\MessageBotGroorine.cs" />
+    <Compile Include="Plugin\Utiline\Alias.cs" />
+    <Compile Include="Plugin\Utiline\Replies\UtilineReplyBase.cs" />
     <Compile Include="Plugin\Utiline\Api\ICommand.cs" />
+    <Compile Include="Plugin\Utiline\Commands\AliasAsCommand.cs" />
+    <Compile Include="Plugin\Utiline\Commands\CommandCalc.cs" />
+    <Compile Include="Plugin\Utiline\Commands\CommandCreateAlias.cs" />
     <Compile Include="Plugin\Utiline\Commands\CommandEcho.cs" />
+    <Compile Include="Plugin\Utiline\Commands\CommandHelp.cs" />
+    <Compile Include="Plugin\Utiline\Commands\CommandListBot.cs" />
+    <Compile Include="Plugin\Utiline\Commands\CommandMakeBot.cs" />
+    <Compile Include="Plugin\Utiline\Commands\CommandPipe.cs" />
+    <Compile Include="Plugin\Utiline\Commands\CommandRemoveBot.cs" />
+    <Compile Include="Plugin\Utiline\Commands\CommandUnalias.cs" />
+    <Compile Include="Plugin\Utiline\Exceptions\IllegalCommandCallException.cs" />
     <Compile Include="Plugin\Utiline\MessageBotUtiline.cs" />
     <Compile Include="Plugin\NazoBrain\MessageBotNazoBrain.cs" />
-    <Compile Include="Extension\NameValueCollectionExtension.cs" />
+    <Compile Include="Extensions\NameValueCollectionExtension.cs" />
     <Compile Include="Plugin\NazoBrain\NazoBrainConfig.cs" />
     <Compile Include="Api\PostedMessage.cs" />
     <Compile Include="Plugin\NazoBrain\NazoBrainExtension.cs" />
+    <Compile Include="Plugin\Utiline\Exceptions\ParseCommandException.cs" />
+    <Compile Include="Plugin\Utiline\Exceptions\WrongUsageException.cs" />
+    <Compile Include="Plugin\Utiline\Replies\UtilineReplyPartial.cs" />
+    <Compile Include="Plugin\Utiline\Replies\UtilineReplyPerfect.cs" />
+    <Compile Include="Plugin\Utiline\Replies\UtilineReplyRegex.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Api\Reaction.cs" />
     <Compile Include="Citroid.cs" />
-    <Compile Include="Exception\SlackException.cs" />
+    <Compile Include="Exceptions\SlackException.cs" />
     <Compile Include="Plugin\NazoBrain\UnicodeBlock.cs" />
     <Compile Include="Plugin\NazoBrain\Word.cs" />
     <Compile Include="Plugin\NazoBrain\WordCandidate.cs" />
@@ -118,8 +146,6 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Enum\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

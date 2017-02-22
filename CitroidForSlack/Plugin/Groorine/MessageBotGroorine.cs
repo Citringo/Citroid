@@ -1,4 +1,5 @@
-﻿using GroorineCore;
+﻿using CitroidForSlack.Api;
+using GroorineCore;
 using GroorineCore.DataModel;
 using GroorineCore.Events;
 using Newtonsoft.Json;
@@ -13,9 +14,8 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using P = GroorineCore.DotNet45.Player;
 
-namespace CitroidForSlack
+namespace CitroidForSlack.Plugins.Groorine
 {
-
 	public class MessageBotGroorine : IMessageBot
 	{
 		public string Help => "アップロードされたスタンダード MIDI ファイルを、Groorineを使用して音楽ファイルに変換し、投稿します。\n" +

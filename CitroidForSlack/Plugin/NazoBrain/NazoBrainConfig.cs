@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace CitroidForSlack
+namespace CitroidForSlack.Plugins.NazoBrain
 {
     public class NazoBrainConfig
 	{
@@ -13,6 +13,16 @@ namespace CitroidForSlack
 		/// </summary>
 		public double PostRate { get; set; } = 0.5;
 		
+		/// <summary>
+		/// Twitter 用のコンシューマーキーです。
+		/// </summary>
+		public string TwitterCK { get; set; }
+
+		/// <summary>
+		/// Twitter 用のコンシューマーシークレットです。
+		/// </summary>
+		public string TwitterCS { get; set; }
+
 	}
 
 

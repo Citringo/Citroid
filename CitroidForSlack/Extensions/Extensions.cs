@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 
-namespace CitroidForSlack
+namespace CitroidForSlack.Extensions
 {
 	/// <summary>
 	/// 拡張メソッドをホストします。

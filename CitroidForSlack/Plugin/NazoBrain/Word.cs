@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Newtonsoft.Json;
 
-namespace CitroidForSlack
+namespace CitroidForSlack.Plugins.NazoBrain
 {
     [Serializable]
 	public class Word

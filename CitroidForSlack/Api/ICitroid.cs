@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 
-namespace CitroidForSlack
+namespace CitroidForSlack.Api
 {
 	public interface ICitroid
 	{

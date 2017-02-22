@@ -1,7 +1,7 @@
 ﻿using System.Collections.Specialized;
 using System.Threading.Tasks;
 
-namespace CitroidForSlack
+namespace CitroidForSlack.Api
 {
 
 	public class Message

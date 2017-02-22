@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CitroidForSlack
+namespace CitroidForSlack.Api
 {
 	public class FileResponse
 	{

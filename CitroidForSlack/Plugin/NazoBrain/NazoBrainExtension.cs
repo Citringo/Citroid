@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CitroidForSlack
+namespace CitroidForSlack.Plugins.NazoBrain
 {
 	using static UnicodeBlock;
 	static class NazoBrainExtension

@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Web;
 
-namespace CitroidForSlack
+namespace CitroidForSlack.Extensions
 {
 	/// <summary>
 	/// <see cref="NameValueCollection"/> にクエリ文字列への変換機能を追加します。

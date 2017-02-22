@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json.Linq;
 
-namespace CitroidForSlack
+namespace CitroidForSlack.Api
 {
 	public class Reaction
 	{

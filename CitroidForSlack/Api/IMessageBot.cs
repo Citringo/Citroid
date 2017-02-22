@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace CitroidForSlack
+namespace CitroidForSlack.Api
 {
     public interface IMessageBot : IBot
 	{
