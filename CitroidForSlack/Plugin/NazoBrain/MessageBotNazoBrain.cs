@@ -23,6 +23,11 @@ namespace CitroidForSlack
 		List<int> lengthBrain;
 		NazoBrainConfig config;
 
+		/// <summary>
+		/// 記憶の時間単位の寿命。
+		/// </summary>
+		public static readonly int WORD_LIFE_SPAN = 4;
+
 		public string BrainDump() => JsonConvert.SerializeObject(wordBrain, Formatting.Indented);
 
 		public NazoBrainConfig Config => config;
@@ -59,7 +64,7 @@ namespace CitroidForSlack
 					char.IsSeparator(text[i]) || 
 					char.IsSymbol(text[i]))
 				{
-					if (!string.IsNullOrEmpty(buf))
+					if (!string.IsNullOrEmpty(buf) && !string.IsNullOrWhiteSpace(buf))
 						list.Add(buf);
 						list.Add(text[i].ToString());
 					buf = "";
@@ -68,7 +73,7 @@ namespace CitroidForSlack
 
 				if (block != prevBlock)
 				{
-					if (!string.IsNullOrEmpty(buf))
+					if (!string.IsNullOrEmpty(buf) && !string.IsNullOrWhiteSpace(buf))
 						list.Add(buf);
 					buf = "";
 				}
@@ -126,25 +131,25 @@ namespace CitroidForSlack
 
 		string Say(string text)
 		{
-			Word trigger = wordBrain.Values.FirstOrDefault(_ => r.Next(3) == 0);
+			Word trigger = wordBrain.Values.Random();
 			string[] list = Split(text);
             foreach (var s in list)
                 if (wordBrain.ContainsKey(s))
                 {
                     trigger = wordBrain[s];
-                    if (r.Next(2) == 0) break;
                 }
 			if (trigger == null)
 				return ":fu:";
-			var length = lengthBrain.Count == 0 ? 140 : Math.Max(20, Math.Min(140, lengthBrain[r.Next(lengthBrain.Count)]));
+			var length = lengthBrain.Count == 0 ? 140 : Math.Max(20, Math.Min(140, lengthBrain.Random()));
 			var sb = new StringBuilder();
-			sb.Append(trigger.MyText);
+
+			//sb.Append(trigger.MyText) 
 			Word w = trigger;
 			for (var i = 0; i < length - 1;)
 			{
 				if (w.Candidates.Count == 0)
 					break;
-				var c = w.Candidates[r.Next(w.Candidates.Count)].MyText;
+				var c = w.Candidates.Random().MyText;
 				if (!wordBrain.ContainsKey(c))
 				{
 					sb.Append(c);
@@ -152,6 +157,9 @@ namespace CitroidForSlack
 				}
 				w = wordBrain[c];
 				sb.Append(w.MyText);
+				// 英単語などは空白をあける
+				if (w.MyText.Last().GetBlock() == UnicodeBlock.Laten)
+					sb.Append(" ");
 				i += w.MyText.Length;
 			}
 			return sb.ToString();
@@ -162,15 +170,19 @@ namespace CitroidForSlack
 		private bool isActive = true;
 		
 
+
 		public async Task RunAsync(Message mes, ICitroid citroid)
 		{
-            
-            //LOG
-            var username = (mes.user == null ? mes.username : citroid.GetUser(mes.user));
+			foreach (KeyValuePair<string, Word> ws in WordBrain.ToList())
+				if ((DateTime.UtcNow - ws.Value.TimeStamp).TotalHours > WORD_LIFE_SPAN)
+					WordBrain.Remove(ws.Key);
+
+			//LOG
+			var username = (mes.user == null ? mes.username : citroid.GetUser(mes.user));
 			Console.WriteLine($"{username}@{mes.channel} : {mes.text}");
 			if (Regex.IsMatch(mes.text, $"<@({citroid.Id}|citroid)>"))
 			{
-                mes.text = mes.text.Replace($"<@{citroid.Id}>", "");
+                mes.text = mes.text.Replace($"<@{citroid.Id}> ", "").Replace($"<@{citroid.Id}>", "");
 				if (mes.text.Contains("ぼんぼやーじゅ") || mes.text.Contains("ばいばい"))
 				{
 					if (username == "citrine")
@@ -182,7 +194,8 @@ namespace CitroidForSlack
 						//	await citroid.PostAsync(mes.channel, $"うるせえ！", userName: "反抗期", iconEmoji: ":anger:");
 						//	return;
 						//}
-						await citroid.PostAsync(mes.channel, $"落ちますﾉｼ！");
+						await citroid.PostAsync(mes.channel, $"落ちますﾉｼ");
+						await citroid.PostAsync(mes.channel, $"*Citroid が退室しました*");
 						isActive = false;
 					}
 					else
