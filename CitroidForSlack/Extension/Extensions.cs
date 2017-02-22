@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 namespace CitroidForSlack
 {
@@ -31,5 +32,8 @@ namespace CitroidForSlack
 		{
 			return UNIX_EPOCH.AddSeconds(self);
 		}
+
+		public static string[] SplitWithNewLine(this string str) => str.Replace("\r\n", "\n").Replace('\r', '\n').Split('\n');
+
 	}
 }
