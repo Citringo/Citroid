@@ -141,11 +141,589 @@
     <Compile Include="Plugin\NazoBrain\UnicodeBlock.cs" />
     <Compile Include="Plugin\NazoBrain\Word.cs" />
     <Compile Include="Plugin\NazoBrain\WordCandidate.cs" />
+    <Compile Include="Utils\StaticUtility.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\Dependency\GroorineCore.DotNet45\Presets\Inst\0.mssf">
+      <Link>Presets\Inst\0.mssf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\Dependency\GroorineCore.DotNet45\Presets\Inst\1.mssf">
+      <Link>Presets\Inst\1.mssf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\Dependency\GroorineCore.DotNet45\Presets\Inst\10.mssf">
+      <Link>Presets\Inst\10.mssf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\Dependency\GroorineCore.DotNet45\Presets\Inst\100.mssf">
+      <Link>Presets\Inst\100.mssf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\Dependency\GroorineCore.DotNet45\Presets\Inst\105.mssf">
+      <Link>Presets\Inst\105.mssf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\Dependency\GroorineCore.DotNet45\Presets\Inst\106.mssf">
+      <Link>Presets\Inst\106.mssf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\Dependency\GroorineCore.DotNet45\Presets\Inst\107.mssf">
+      <Link>Presets\Inst\107.mssf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\Dependency\GroorineCore.DotNet45\Presets\Inst\108.mssf">
+      <Link>Presets\Inst\108.mssf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\Dependency\GroorineCore.DotNet45\Presets\Inst\11.mssf">
+      <Link>Presets\Inst\11.mssf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\Dependency\GroorineCore.DotNet45\Presets\Inst\110.mssf">
+      <Link>Presets\Inst\110.mssf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\Dependency\GroorineCore.DotNet45\Presets\Inst\112.mssf">
+      <Link>Presets\Inst\112.mssf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\Dependency\GroorineCore.DotNet45\Presets\Inst\113.mssf">
+      <Link>Presets\Inst\113.mssf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\Dependency\GroorineCore.DotNet45\Presets\Inst\114.mssf">
+      <Link>Presets\Inst\114.mssf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\Dependency\GroorineCore.DotNet45\Presets\Inst\115.mssf">
+      <Link>Presets\Inst\115.mssf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\Dependency\GroorineCore.DotNet45\Presets\Inst\116.mssf">
+      <Link>Presets\Inst\116.mssf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\Dependency\GroorineCore.DotNet45\Presets\Inst\117.mssf">
+      <Link>Presets\Inst\117.mssf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\Dependency\GroorineCore.DotNet45\Presets\Inst\118.mssf">
+      <Link>Presets\Inst\118.mssf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\Dependency\GroorineCore.DotNet45\Presets\Inst\119.mssf">
+      <Link>Presets\Inst\119.mssf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\Dependency\GroorineCore.DotNet45\Presets\Inst\12.mssf">
+      <Link>Presets\Inst\12.mssf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\Dependency\GroorineCore.DotNet45\Presets\Inst\120.mssf">
+      <Link>Presets\Inst\120.mssf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\Dependency\GroorineCore.DotNet45\Presets\Inst\121.mssf">
+      <Link>Presets\Inst\121.mssf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\Dependency\GroorineCore.DotNet45\Presets\Inst\122.mssf">
+      <Link>Presets\Inst\122.mssf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\Dependency\GroorineCore.DotNet45\Presets\Inst\123.mssf">
+      <Link>Presets\Inst\123.mssf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\Dependency\GroorineCore.DotNet45\Presets\Inst\124.mssf">
+      <Link>Presets\Inst\124.mssf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\Dependency\GroorineCore.DotNet45\Presets\Inst\125.mssf">
+      <Link>Presets\Inst\125.mssf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\Dependency\GroorineCore.DotNet45\Presets\Inst\126.mssf">
+      <Link>Presets\Inst\126.mssf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\Dependency\GroorineCore.DotNet45\Presets\Inst\127.mssf">
+      <Link>Presets\Inst\127.mssf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\Dependency\GroorineCore.DotNet45\Presets\Inst\13.mssf">
+      <Link>Presets\Inst\13.mssf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\Dependency\GroorineCore.DotNet45\Presets\Inst\14.mssf">
+      <Link>Presets\Inst\14.mssf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\Dependency\GroorineCore.DotNet45\Presets\Inst\15.mssf">
+      <Link>Presets\Inst\15.mssf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\Dependency\GroorineCore.DotNet45\Presets\Inst\16.mssf">
+      <Link>Presets\Inst\16.mssf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\Dependency\GroorineCore.DotNet45\Presets\Inst\17.mssf">
+      <Link>Presets\Inst\17.mssf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\Dependency\GroorineCore.DotNet45\Presets\Inst\18.mssf">
+      <Link>Presets\Inst\18.mssf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\Dependency\GroorineCore.DotNet45\Presets\Inst\19.mssf">
+      <Link>Presets\Inst\19.mssf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\Dependency\GroorineCore.DotNet45\Presets\Inst\2.mssf">
+      <Link>Presets\Inst\2.mssf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\Dependency\GroorineCore.DotNet45\Presets\Inst\20.mssf">
+      <Link>Presets\Inst\20.mssf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\Dependency\GroorineCore.DotNet45\Presets\Inst\21.mssf">
+      <Link>Presets\Inst\21.mssf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\Dependency\GroorineCore.DotNet45\Presets\Inst\22.mssf">
+      <Link>Presets\Inst\22.mssf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\Dependency\GroorineCore.DotNet45\Presets\Inst\23.mssf">
+      <Link>Presets\Inst\23.mssf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\Dependency\GroorineCore.DotNet45\Presets\Inst\24.mssf">
+      <Link>Presets\Inst\24.mssf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\Dependency\GroorineCore.DotNet45\Presets\Inst\25.mssf">
+      <Link>Presets\Inst\25.mssf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\Dependency\GroorineCore.DotNet45\Presets\Inst\26.mssf">
+      <Link>Presets\Inst\26.mssf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\Dependency\GroorineCore.DotNet45\Presets\Inst\27.mssf">
+      <Link>Presets\Inst\27.mssf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\Dependency\GroorineCore.DotNet45\Presets\Inst\28.mssf">
+      <Link>Presets\Inst\28.mssf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\Dependency\GroorineCore.DotNet45\Presets\Inst\29.mssf">
+      <Link>Presets\Inst\29.mssf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\Dependency\GroorineCore.DotNet45\Presets\Inst\3.mssf">
+      <Link>Presets\Inst\3.mssf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\Dependency\GroorineCore.DotNet45\Presets\Inst\30.mssf">
+      <Link>Presets\Inst\30.mssf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\Dependency\GroorineCore.DotNet45\Presets\Inst\31.mssf">
+      <Link>Presets\Inst\31.mssf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\Dependency\GroorineCore.DotNet45\Presets\Inst\32.mssf">
+      <Link>Presets\Inst\32.mssf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\Dependency\GroorineCore.DotNet45\Presets\Inst\33.mssf">
+      <Link>Presets\Inst\33.mssf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\Dependency\GroorineCore.DotNet45\Presets\Inst\34.mssf">
+      <Link>Presets\Inst\34.mssf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\Dependency\GroorineCore.DotNet45\Presets\Inst\35.mssf">
+      <Link>Presets\Inst\35.mssf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\Dependency\GroorineCore.DotNet45\Presets\Inst\36.mssf">
+      <Link>Presets\Inst\36.mssf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\Dependency\GroorineCore.DotNet45\Presets\Inst\37.mssf">
+      <Link>Presets\Inst\37.mssf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\Dependency\GroorineCore.DotNet45\Presets\Inst\38.mssf">
+      <Link>Presets\Inst\38.mssf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\Dependency\GroorineCore.DotNet45\Presets\Inst\39.mssf">
+      <Link>Presets\Inst\39.mssf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\Dependency\GroorineCore.DotNet45\Presets\Inst\4.mssf">
+      <Link>Presets\Inst\4.mssf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\Dependency\GroorineCore.DotNet45\Presets\Inst\40.mssf">
+      <Link>Presets\Inst\40.mssf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\Dependency\GroorineCore.DotNet45\Presets\Inst\41.mssf">
+      <Link>Presets\Inst\41.mssf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\Dependency\GroorineCore.DotNet45\Presets\Inst\42.mssf">
+      <Link>Presets\Inst\42.mssf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\Dependency\GroorineCore.DotNet45\Presets\Inst\43.mssf">
+      <Link>Presets\Inst\43.mssf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\Dependency\GroorineCore.DotNet45\Presets\Inst\44.mssf">
+      <Link>Presets\Inst\44.mssf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\Dependency\GroorineCore.DotNet45\Presets\Inst\45.mssf">
+      <Link>Presets\Inst\45.mssf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\Dependency\GroorineCore.DotNet45\Presets\Inst\46.mssf">
+      <Link>Presets\Inst\46.mssf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\Dependency\GroorineCore.DotNet45\Presets\Inst\47.mssf">
+      <Link>Presets\Inst\47.mssf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\Dependency\GroorineCore.DotNet45\Presets\Inst\48.mssf">
+      <Link>Presets\Inst\48.mssf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\Dependency\GroorineCore.DotNet45\Presets\Inst\49.mssf">
+      <Link>Presets\Inst\49.mssf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\Dependency\GroorineCore.DotNet45\Presets\Inst\5.mssf">
+      <Link>Presets\Inst\5.mssf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\Dependency\GroorineCore.DotNet45\Presets\Inst\50.mssf">
+      <Link>Presets\Inst\50.mssf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\Dependency\GroorineCore.DotNet45\Presets\Inst\51.mssf">
+      <Link>Presets\Inst\51.mssf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\Dependency\GroorineCore.DotNet45\Presets\Inst\52.mssf">
+      <Link>Presets\Inst\52.mssf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\Dependency\GroorineCore.DotNet45\Presets\Inst\53.mssf">
+      <Link>Presets\Inst\53.mssf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\Dependency\GroorineCore.DotNet45\Presets\Inst\54.mssf">
+      <Link>Presets\Inst\54.mssf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\Dependency\GroorineCore.DotNet45\Presets\Inst\55.mssf">
+      <Link>Presets\Inst\55.mssf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\Dependency\GroorineCore.DotNet45\Presets\Inst\56.mssf">
+      <Link>Presets\Inst\56.mssf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\Dependency\GroorineCore.DotNet45\Presets\Inst\57.mssf">
+      <Link>Presets\Inst\57.mssf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\Dependency\GroorineCore.DotNet45\Presets\Inst\58.mssf">
+      <Link>Presets\Inst\58.mssf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\Dependency\GroorineCore.DotNet45\Presets\Inst\59.mssf">
+      <Link>Presets\Inst\59.mssf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\Dependency\GroorineCore.DotNet45\Presets\Inst\6.mssf">
+      <Link>Presets\Inst\6.mssf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\Dependency\GroorineCore.DotNet45\Presets\Inst\60.mssf">
+      <Link>Presets\Inst\60.mssf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\Dependency\GroorineCore.DotNet45\Presets\Inst\61.mssf">
+      <Link>Presets\Inst\61.mssf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\Dependency\GroorineCore.DotNet45\Presets\Inst\62.mssf">
+      <Link>Presets\Inst\62.mssf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\Dependency\GroorineCore.DotNet45\Presets\Inst\63.mssf">
+      <Link>Presets\Inst\63.mssf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\Dependency\GroorineCore.DotNet45\Presets\Inst\64.mssf">
+      <Link>Presets\Inst\64.mssf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\Dependency\GroorineCore.DotNet45\Presets\Inst\65.mssf">
+      <Link>Presets\Inst\65.mssf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\Dependency\GroorineCore.DotNet45\Presets\Inst\66.mssf">
+      <Link>Presets\Inst\66.mssf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\Dependency\GroorineCore.DotNet45\Presets\Inst\67.mssf">
+      <Link>Presets\Inst\67.mssf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\Dependency\GroorineCore.DotNet45\Presets\Inst\68.mssf">
+      <Link>Presets\Inst\68.mssf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\Dependency\GroorineCore.DotNet45\Presets\Inst\69.mssf">
+      <Link>Presets\Inst\69.mssf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\Dependency\GroorineCore.DotNet45\Presets\Inst\7.mssf">
+      <Link>Presets\Inst\7.mssf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\Dependency\GroorineCore.DotNet45\Presets\Inst\70.mssf">
+      <Link>Presets\Inst\70.mssf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\Dependency\GroorineCore.DotNet45\Presets\Inst\71.mssf">
+      <Link>Presets\Inst\71.mssf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\Dependency\GroorineCore.DotNet45\Presets\Inst\72.mssf">
+      <Link>Presets\Inst\72.mssf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\Dependency\GroorineCore.DotNet45\Presets\Inst\73.mssf">
+      <Link>Presets\Inst\73.mssf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\Dependency\GroorineCore.DotNet45\Presets\Inst\74.mssf">
+      <Link>Presets\Inst\74.mssf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\Dependency\GroorineCore.DotNet45\Presets\Inst\75.mssf">
+      <Link>Presets\Inst\75.mssf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\Dependency\GroorineCore.DotNet45\Presets\Inst\76.mssf">
+      <Link>Presets\Inst\76.mssf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\Dependency\GroorineCore.DotNet45\Presets\Inst\77.mssf">
+      <Link>Presets\Inst\77.mssf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\Dependency\GroorineCore.DotNet45\Presets\Inst\78.mssf">
+      <Link>Presets\Inst\78.mssf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\Dependency\GroorineCore.DotNet45\Presets\Inst\79.mssf">
+      <Link>Presets\Inst\79.mssf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\Dependency\GroorineCore.DotNet45\Presets\Inst\8.mssf">
+      <Link>Presets\Inst\8.mssf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\Dependency\GroorineCore.DotNet45\Presets\Inst\80.mssf">
+      <Link>Presets\Inst\80.mssf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\Dependency\GroorineCore.DotNet45\Presets\Inst\81.mssf">
+      <Link>Presets\Inst\81.mssf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\Dependency\GroorineCore.DotNet45\Presets\Inst\82.mssf">
+      <Link>Presets\Inst\82.mssf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\Dependency\GroorineCore.DotNet45\Presets\Inst\83.mssf">
+      <Link>Presets\Inst\83.mssf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\Dependency\GroorineCore.DotNet45\Presets\Inst\84.mssf">
+      <Link>Presets\Inst\84.mssf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\Dependency\GroorineCore.DotNet45\Presets\Inst\85.mssf">
+      <Link>Presets\Inst\85.mssf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\Dependency\GroorineCore.DotNet45\Presets\Inst\86.mssf">
+      <Link>Presets\Inst\86.mssf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\Dependency\GroorineCore.DotNet45\Presets\Inst\87.mssf">
+      <Link>Presets\Inst\87.mssf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\Dependency\GroorineCore.DotNet45\Presets\Inst\88.mssf">
+      <Link>Presets\Inst\88.mssf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\Dependency\GroorineCore.DotNet45\Presets\Inst\89.mssf">
+      <Link>Presets\Inst\89.mssf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\Dependency\GroorineCore.DotNet45\Presets\Inst\9.mssf">
+      <Link>Presets\Inst\9.mssf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\Dependency\GroorineCore.DotNet45\Presets\Inst\90.mssf">
+      <Link>Presets\Inst\90.mssf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\Dependency\GroorineCore.DotNet45\Presets\Inst\98.mssf">
+      <Link>Presets\Inst\98.mssf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\Dependency\GroorineCore.DotNet45\Presets\Inst\99.mssf">
+      <Link>Presets\Inst\99.mssf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="..\Dependency\GroorineCore.DotNet45\Presets\Drum\31.wav">
+      <Link>Presets\Drum\31.wav</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Dependency\GroorineCore.DotNet45\Presets\Drum\35.wav">
+      <Link>Presets\Drum\35.wav</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Dependency\GroorineCore.DotNet45\Presets\Drum\36.wav">
+      <Link>Presets\Drum\36.wav</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Dependency\GroorineCore.DotNet45\Presets\Drum\37.wav">
+      <Link>Presets\Drum\37.wav</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Dependency\GroorineCore.DotNet45\Presets\Drum\38.wav">
+      <Link>Presets\Drum\38.wav</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Dependency\GroorineCore.DotNet45\Presets\Drum\39.wav">
+      <Link>Presets\Drum\39.wav</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Dependency\GroorineCore.DotNet45\Presets\Drum\40.wav">
+      <Link>Presets\Drum\40.wav</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Dependency\GroorineCore.DotNet45\Presets\Drum\41.wav">
+      <Link>Presets\Drum\41.wav</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Dependency\GroorineCore.DotNet45\Presets\Drum\42.wav">
+      <Link>Presets\Drum\42.wav</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Dependency\GroorineCore.DotNet45\Presets\Drum\43.wav">
+      <Link>Presets\Drum\43.wav</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Dependency\GroorineCore.DotNet45\Presets\Drum\44.wav">
+      <Link>Presets\Drum\44.wav</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Dependency\GroorineCore.DotNet45\Presets\Drum\45.wav">
+      <Link>Presets\Drum\45.wav</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Dependency\GroorineCore.DotNet45\Presets\Drum\46.wav">
+      <Link>Presets\Drum\46.wav</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Dependency\GroorineCore.DotNet45\Presets\Drum\47.wav">
+      <Link>Presets\Drum\47.wav</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Dependency\GroorineCore.DotNet45\Presets\Drum\48.wav">
+      <Link>Presets\Drum\48.wav</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Dependency\GroorineCore.DotNet45\Presets\Drum\49.wav">
+      <Link>Presets\Drum\49.wav</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Dependency\GroorineCore.DotNet45\Presets\Drum\50.wav">
+      <Link>Presets\Drum\50.wav</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Dependency\GroorineCore.DotNet45\Presets\Drum\51.wav">
+      <Link>Presets\Drum\51.wav</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Dependency\GroorineCore.DotNet45\Presets\Drum\52.wav">
+      <Link>Presets\Drum\52.wav</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Dependency\GroorineCore.DotNet45\Presets\Drum\54.wav">
+      <Link>Presets\Drum\54.wav</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Dependency\GroorineCore.DotNet45\Presets\Drum\55.wav">
+      <Link>Presets\Drum\55.wav</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Dependency\GroorineCore.DotNet45\Presets\Drum\57.wav">
+      <Link>Presets\Drum\57.wav</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Dependency\GroorineCore.DotNet45\Presets\Drum\59.wav">
+      <Link>Presets\Drum\59.wav</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Dependency\GroorineCore.DotNet45\Presets\Drum\63.wav">
+      <Link>Presets\Drum\63.wav</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Dependency\GroorineCore.DotNet45\Presets\Drum\64.wav">
+      <Link>Presets\Drum\64.wav</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Dependency\GroorineCore.DotNet45\Presets\Drum\78.wav">
+      <Link>Presets\Drum\78.wav</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Dependency\GroorineCore.DotNet45\Presets\Drum\79.wav">
+      <Link>Presets\Drum\79.wav</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Dependency\GroorineCore.DotNet45\Presets\Drum\80.wav">
+      <Link>Presets\Drum\80.wav</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Dependency\GroorineCore.DotNet45\Presets\Drum\81.wav">
+      <Link>Presets\Drum\81.wav</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
