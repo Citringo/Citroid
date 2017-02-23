@@ -254,10 +254,14 @@ namespace CitroidForSlack
 					case "file_shared":
 						{
 							FileObject fo = await Task.Factory.StartNew(() => JsonConvert.DeserializeObject<FileResponse>(e.Message).file.Roid(this));
-							fo = (await RequestAsync("files.info", new NameValueCollection
+							var a = (await RequestAsync("files.info", new NameValueCollection
 							{
 								{ "file", fo.id },
-							})).GetValue("file").ToObject<FileObject>().Roid(this);
+							}));
+							if (a.TryGetValue("file", out var file))
+								fo = file.ToObject<FileObject>().Roid(this);
+							else
+								return;
 							FileShared?.Invoke(this, fo);
 						}
 						break;
@@ -333,9 +337,9 @@ namespace CitroidForSlack
 
 		public async Task UploadFileAsync(string path, string title = "", params string[] channels)
 		{
-			//送信するファイルのパス
+			//パスから名前だけとる
 			var fileName = Path.GetFileName(path);
-			//送信先のURL
+			//送信先のURLをくみたてる
 			var url = GetApiUrl("files.upload", new NameValueCollection
 			{
 				{ "token", Token },
@@ -343,14 +347,8 @@ namespace CitroidForSlack
 				{ "title", title },
 				{ "channels", string.Join(",", channels) }
 			});
-			//文字コード
-			Encoding enc =
-				Encoding.UTF8;
-			//区切り文字列
-			var boundary = Environment.TickCount.ToString();
-
-			var wc = new WebClient();
-			await wc.UploadFileTaskAsync(url, path);
+			// リクエストおくる
+			await new WebClient().UploadFileTaskAsync(url, path);
 		}
 
 
