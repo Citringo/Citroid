@@ -15,4 +15,17 @@ namespace CitroidForSlack.Utiline.Commands
 
 		public string Process(string[] args) => string.Join(",", args);
 	}
+
+	public class CommandEchoAs : ICommand
+	{
+		public string Name => "echoas";
+
+		public string Usage => $@"より高機能なメッセージ表示コマンドです。
+{Name}: <user>, <emoji or url>, <message>";
+
+		public string Process(string[] args)
+		{
+			return "未実装だバーロー:soccer:";
+		}
+	}
 }
