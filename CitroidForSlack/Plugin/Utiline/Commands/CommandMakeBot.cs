@@ -2,6 +2,8 @@
 using CitroidForSlack.Plugins.Utiline;
 using CitroidForSlack.Plugins.Utiline.Api;
 using CitroidForSlack.Plugins.Utiline.Exceptions;
+using System;
+using System.Text.RegularExpressions;
 
 namespace CitroidForSlack.Utiline.Commands
 {
@@ -49,6 +51,14 @@ pattern: 一致条件として指定するパターン。mode 引数が regex �
 					parent.Replies.Add(new UtilineReplyPartial(pattern, reply, name, emoji));
 					break;
 				case MODE_REGEX:
+					try
+					{
+						new Regex(pattern);
+					}
+					catch (ArgumentException ex)
+					{
+						throw new IllegalCommandCallException("正規表現が間違っています。", ex);
+					}
 					parent.Replies.Add(new UtilineReplyRegex(pattern, reply, name, emoji));
 					break;
 				default:
