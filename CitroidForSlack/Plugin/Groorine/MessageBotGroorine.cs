@@ -104,6 +104,8 @@ namespace CitroidForSlack.Plugins.Groorine
 				tracks.Add(curTrack = new Track(new ObservableCollection<MidiEvent>()));
 				tick = 0;
 				channel++;
+				if (channel == null)
+					channel = 0;
 			}
 
 			int MmlLengthToMidiTick(int l)
@@ -351,72 +353,81 @@ namespace CitroidForSlack.Plugins.Groorine
 		/// </summary>
 		public static readonly string GROORINE_TEMP = "grtemp";
 
-		public async Task InitializeAsync(ICitroid citroid)
+		public Task InitializeAsync(ICitroid citroid)
 		{
-			citroid.FileShared += (s, e) => Task.Factory.StartNew(async () =>
+			citroid.FileShared += async (s, e) =>
 			{
-			if (!_isActive)
-				return;
-			string path;
-			await e.DownloadAsync(path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, DIRECTORY_TO_DOWNLOAD));
-			path = Path.Combine(path, e.name);
-			var wavpath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, GROORINE_TEMP, Path.ChangeExtension(e.name, "wav"));
-			var mp3path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, GROORINE_TEMP, Path.ChangeExtension(e.name, "mp3"));
-			Directory.CreateDirectory(Path.GetDirectoryName(wavpath));
-			var lamepath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "lame.exe");
-			if (File.Exists(path))
-			{
-				var p = new P();
-				try
+				if (!_isActive)
+					return;
+				var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, DIRECTORY_TO_DOWNLOAD);
+				Directory.CreateDirectory(path);
+				await e.DownloadAsync(path);
+				var filename = $"{Path.GetFileNameWithoutExtension(e.name)}-{Environment.TickCount}{Path.GetExtension(e.name)}";
+				path = Path.Combine(path, e.name);
+				var wavpath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, GROORINE_TEMP, Path.ChangeExtension(filename, "wav"));
+				var mp3path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, GROORINE_TEMP, Path.ChangeExtension(filename, "mp3"));
+				Directory.CreateDirectory(Path.GetDirectoryName(wavpath));
+				var lamepath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "lame.exe");
+				if (File.Exists(path))
 				{
-					MidiFile grobj;
-						if (new[] { ".mid", ".midi", ".smf" }.Contains(Path.GetExtension(path)))
-							grobj = SmfParser.Parse(new FileStream(path, FileMode.Open, FileAccess.Read));
-						else if (Path.GetExtension(path) == ".txt")
+					using (P p = await P.CreateAsync())
+					{
+						try
 						{
-							var lines = File.ReadAllText(path).Replace("\r\n", "\n").Replace('\r', '\n').Split('\n');
-							if (lines.Length == 0)
-								return;
-							if (lines[0].ToUpper() != "#!MML")
-								return;
-							grobj = ParseMml(string.Join("", lines.Skip(1)));
-						}
-						else
-							return;
-						// Groorine でmid => wav
-						/*if (!File.Exists(wavpath))
-							*/
-						await p.SaveAsync(wavpath, 2, grobj);
-
-						var uploadFile = wavpath;
-						if (File.Exists(lamepath) /*&& !File.Exists(mp3path)*/)
-						{
-							// lameが存在するならmp3に変換する
-							Process.Start(new ProcessStartInfo(lamepath, $@"""{wavpath}""")
+							MidiFile grobj;
+							if (new[] { ".mid", ".midi", ".smf" }.Contains(Path.GetExtension(path)))
+								grobj = SmfParser.Parse(new FileStream(path, FileMode.Open, FileAccess.Read));
+							else if (Path.GetExtension(path) == ".txt")
 							{
-								UseShellExecute = false,
-								RedirectStandardOutput = true
-							}).WaitForExit(114514); // くさい
-							uploadFile = mp3path;
+								var lines = File.ReadAllText(path).Replace("\r\n", "\n").Replace('\r', '\n').Split('\n');
+								if (lines.Length == 0)
+									return;
+								if (lines[0].ToUpper() != "#!MML")
+									return;
+								grobj = ParseMml(string.Join("", lines.Skip(1)));
+							}
+							else
+								return;
+							// Groorine でmid => wav
+							/*if (!File.Exists(wavpath))
+								*/
+							await p.SaveAsync(wavpath, 2, grobj).ConfigureAwait(false);
+
+							var uploadFile = wavpath;
+							if (File.Exists(lamepath) /*&& !File.Exists(mp3path)*/)
+							{
+								// lameが存在するならmp3に変換する
+								await Task.Factory.StartNew(() => Process.Start(new ProcessStartInfo(lamepath, $@"""{wavpath}""")
+								{
+									UseShellExecute = false,
+									RedirectStandardOutput = true
+								}).WaitForExit(114514)).ConfigureAwait(false); // くさい
+								uploadFile = mp3path;
+							}
+							else
+								Console.WriteLine("I couldn't find lame.exe. Music file won't be converted to mp3...");
+							await citroid.UploadFileAsync(uploadFile, p.CorePlayer.CurrentFile.Title ?? Path.GetFileName(uploadFile) ?? "MIDI Music by Groorine", e.channels.Concat(e.ims).Concat(e.groups).ToArray());
 						}
-						else
-							Console.WriteLine("I couldn't find lame.exe. Music file won't be converted to mp3...");
-						await citroid.UploadFileAsync(uploadFile, p.CorePlayer.CurrentFile.Title ?? Path.GetFileName(uploadFile) ?? "MIDI Music by Groorine", e.channels);
-					}
-					catch (ArgumentException ae)
-					{
-						await citroid.PostAsync(e.channels?.LastOrDefault() ?? "", "Groorineがエラーを吐いたよ: " + ae.Message);
-						Debug.WriteLine(ae.ToString());
-					}
-					catch (Exception ex)
-					{
-						Debug.WriteLine(ex.ToString());
+						catch (ArgumentException ae)
+						{
+							await citroid.PostAsync(e.channels?.LastOrDefault() ?? "", "Groorineがエラーを吐いたよ: " + ae.Message);
+							Debug.WriteLine(ae.ToString());
+						}
+						catch (Exception ex)
+						{
+							Debug.WriteLine(ex.ToString());
+						}
+						finally
+						{
+							p.Dispose();
+						}
 					}
 
 				}
 
 				Console.WriteLine(JsonConvert.SerializeObject(e, Formatting.Indented));
-			});
+			};
+			return Task.Delay(0);
 		}
 
 		private bool _isActive = true;
