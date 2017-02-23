@@ -39,16 +39,36 @@ namespace CitroidForSlack.Api
 			Citroid = citroid;
 			citroid.ReactionAdded += (sender, e) =>
 			{
-				if (e.item.TryGetValue("ts", out var ts) && ts.Type == JTokenType.String && ts.Value<string>() == this.ts)
+				if (e.item.TryGetValue("ts", out var ts) && ts.Type == JTokenType.String && ts.Value<string>() == this.ts && e.user != Citroid.Id)
 					ReactionAdded?.Invoke(e.reaction, e.user);
 			};
 
 			citroid.ReactionRemoved += (sender, e) =>
 			{
-				if (e.item.TryGetValue("ts", out var ts) && ts.Type == JTokenType.String && ts.Value<string>() == this.ts)
+				if (e.item.TryGetValue("ts", out var ts) && ts.Type == JTokenType.String && ts.Value<string>() == this.ts && e.user != Citroid.Id)
 					ReactionRemoved?.Invoke(e.reaction, e.user);
 			};
 			return this;
+		}
+
+		public async Task AddReactionAsync(string emoji)
+		{
+			await Citroid.RequestAsync("reactions.add", new NameValueCollection
+			{
+				{ "name", emoji },
+				{"timestamp", ts },
+				{"channel", channel }
+			});
+		}
+
+		public async Task RemoveReactionAsync(string emoji)
+		{
+			await Citroid.RequestAsync("reactions.remove", new NameValueCollection
+			{
+				{ "name", emoji },
+				{"timestamp", ts },
+				{"channel", channel }
+			});
 		}
 	}
 }
