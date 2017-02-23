@@ -22,6 +22,10 @@ namespace CitroidForSlack.Plugins.NazoBrain
 		/// Twitter 用のコンシューマーシークレットです。
 		/// </summary>
 		public string TwitterCS { get; set; }
+		
+		public string TwitterAccessToken { get; set; }
+
+		public string TwitterAccessSecret { get; set; }
 
 	}
 

@@ -10,7 +10,6 @@ using System.IO;
 using Newtonsoft.Json;
 using CitroidForSlack.Api;
 using CitroidForSlack.Extensions;
-using CitroidForSlack.Plugins.CitDealer;
 
 namespace CitroidForSlack.Plugins.NazoBrain
 {
@@ -321,7 +320,7 @@ namespace CitroidForSlack.Plugins.NazoBrain
 				}
 			}
 		}
-
+		
 		public void Exit(ICitroid citroid)
 		{
 			File.WriteAllText("lengthBrain.json",JsonConvert.SerializeObject(lengthBrain, Formatting.Indented));
