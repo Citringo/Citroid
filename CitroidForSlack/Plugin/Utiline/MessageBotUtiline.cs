@@ -139,7 +139,7 @@ namespace CitroidForSlack.Plugins.Utiline
 		private void SaveReply()
 		{
 			var jsonbase = new List<SerializableReply>();
-			foreach (UtilineReplyBase reply in Replies)
+			foreach (UtilineReplyBase reply in Replies.ToList())
 			{
 				ReplyMode rm;
 				switch (reply)
@@ -320,7 +320,7 @@ namespace CitroidForSlack.Plugins.Utiline
 		{
 			if (mes.subtype == "bot_message")
 				return;
-			foreach (UtilineReplyBase r in Replies)
+			foreach (UtilineReplyBase r in Replies.ToList())
 			{
 				if (r.Match(mes.text))
 					await citroid.PostAsync(mes.channel, r.Reply(mes.text), r.UserName ?? "", "", r.UserEmoji ?? "");

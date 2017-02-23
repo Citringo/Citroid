@@ -1,6 +1,7 @@
 ﻿using CitroidForSlack.Plugin.Utiline.Replies;
 using CitroidForSlack.Plugins.Utiline;
 using CitroidForSlack.Plugins.Utiline.Api;
+using System.Linq;
 using System.Text;
 
 namespace CitroidForSlack.Utiline.Commands
@@ -16,7 +17,7 @@ namespace CitroidForSlack.Utiline.Commands
 		public string Process(string[] args)
 		{
 			var sb = new StringBuilder();
-			foreach (UtilineReplyBase urb in _bot.Replies)
+			foreach (UtilineReplyBase urb in _bot.Replies.ToList())
 			{
 				sb.AppendLine($"{urb.ToString()}");
 			}
