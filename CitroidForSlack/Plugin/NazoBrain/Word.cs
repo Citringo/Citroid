@@ -34,14 +34,14 @@ namespace CitroidForSlack.Plugins.NazoBrain
 		public void Add(string c, DateTime time) => Candidates.Add(new WordCandidate(c, time));
 
 
-		public Word(string c) : this(c, new List<WordCandidate>(), DateTime.Now) { }
+		public Word(string c) : this(c, new List<WordCandidate>(), DateTime.UtcNow) { }
 
 		[JsonConstructor]
 		public Word(string myChar, List<WordCandidate> candidates, DateTime datetime = default(DateTime))
 		{
 			MyText = myChar;
 			_candidates = candidates ?? throw new ArgumentNullException(nameof(candidates));
-			TimeStamp = datetime.Equals(default(DateTime)) ? DateTime.Now : datetime;
+			TimeStamp = datetime.Equals(default(DateTime)) ? DateTime.UtcNow : datetime;
 		}
 	}
 
