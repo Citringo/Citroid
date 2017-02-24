@@ -14,9 +14,10 @@ namespace CitroidForSlack.Plugins.CitDealer
 
 		public string Copyright => "(C)2017 Citrine";
 
-		public string Version => "2.0.0 pre-pre-alpha";
+		public string Version => "2.0.0 pre-alpha";
 
-		public string Help => "できることはありません。";
+		public string Help => $@"スローライフゲーム
+現実と同じように時間があり、春夏秋冬のある世界「スラックアイル」に移住し、のんびり生活をおくる。";
 
 		enum GameState
 		{
@@ -35,7 +36,7 @@ namespace CitroidForSlack.Plugins.CitDealer
 		{
 			
 		}
-		
+
 
 		public async Task RunAsync(Message mes, ICitroid citroid)
 		{
@@ -55,9 +56,13 @@ namespace CitroidForSlack.Plugins.CitDealer
 					break;
 				case 2:
 					await citroid.PostAsync(mes.channel, "しょうがないなあ、そんなに言うならじゃんけんでもするかい？");
+					//await citroid.PostAsync(mes.channel, "しょうがないなあ、じゃあちょっと実験したいゲームがあるからやってくれるかい。");
 					break;
 				default:
-					var a = await citroid.PostAsync(mes.channel, "じゃあいくよ。 じゃんけん");
+					PostedMessage a = await citroid.PostAsync(mes.channel, "じゃあいくよ。 じゃんけん");
+					//PostedMessage a = await citroid.PostAsync(mes.channel, "釣りゲームだよ。 魚がかかったら :a: ボタンを押してつるんだ。どうだ、やるかい？やるなら :a:ボタンを押してくれ。");
+					//await a.AddReactionAsync("a");
+					//count = 0;
 					await a.AddReactionAsync("fist");
 					await a.AddReactionAsync("v");
 					await a.AddReactionAsync("hand");
@@ -92,5 +97,51 @@ namespace CitroidForSlack.Plugins.CitDealer
 		public bool CanExecute(Message mes) => string.IsNullOrEmpty(mes.subtype);
 		#endregion
 	}
+
+	public class SaveData
+	{
+
+	}
+
+	public class Player : Person
+	{
+		public string SlackId { get; }
+		public Player(string name, string slackId, Gender gender, int money = 0) : base(name, gender, Personality.Nerd, money)
+		{
+			SlackId = slackId;
+		}
+	}
+
+	public abstract class Person : IPerson
+	{
+		public int Money { get; set; }
+
+		public string Name { get; }
+
+		public Gender Gender { get; }
+
+		public Personality Personality { get; }
+
+		public Person(string name, Gender gender, Personality pers, int money = 0)
+		{
+			Name = name;
+			Gender = gender;
+			Personality = pers;
+			Money = money;
+		}
+	}
+
+
+
+	public class World
+	{
+		private World() { }
+
+		public async Task<World> CreateWorldAsync()
+		{
+			return new World();
+		}
+	}
+
 
 }
