@@ -315,7 +315,7 @@ namespace CitroidForSlack.Plugins.NazoBrain
 						continue;
 					//if (mes["user"] != null && citroid.GetUser(mes["user"].Value<string>()) == "citrine")
 
-					Learn(mes["text"].Value<string>(), long.Parse(mes["ts"].Value<string>().Split('.')[0]).ToDateTime());
+					Learn(mes["text"].Value<string>(), DateTime.UtcNow);
 
 				}
 			}
