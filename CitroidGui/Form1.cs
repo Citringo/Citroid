@@ -37,7 +37,7 @@ namespace CitroidGui
 				foreach (KeyValuePair<string, 
 					Word> k in bot.WordBrain)
 				{
-					var t = new TreeNode($"Word {k.Value.MyText}");
+					var t = new TreeNode($"Word {k.Value.MyText} {k.Value.TimeStamp}");
 					foreach (WordCandidate wc in k.Value.Candidates)
 						t.Nodes.Add($"WordCandidate {wc.MyText}, {wc.RegisteredTime}");
 					treeView1.Nodes.Add(t);
