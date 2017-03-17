@@ -253,7 +253,7 @@ namespace CitroidForSlack.Plugins.NazoBrain
 			if (Regex.IsMatch(mes.text, $"<@({citroid.Id}|citroid)>"))
 			{
                 mes.text = mes.text.Replace($"<@{citroid.Id}> ", "").Replace($"<@{citroid.Id}>", "");
-				if (mes.text.Contains("ぼんぼやーじゅ") || mes.text.Contains("ばいばい"))
+				if (isActive && (mes.text.Contains("ぼんぼやーじゅ") || mes.text.Contains("ばいばい")))
 				{
 					if (username == Citroid.ParentName)
 					{
@@ -272,7 +272,7 @@ namespace CitroidForSlack.Plugins.NazoBrain
 						await citroid.PostAsync(mes.channel, $"<@{username}> は親じゃないなー");
 					return;
 				}
-				else if (mes.text.Contains("かむひーや") || mes.text.Contains("おいで"))
+				else if (!isActive && (mes.text.Contains("かむひーや") || mes.text.Contains("おいで")))
 				{
 					if (username == Citroid.ParentName)
 					{
@@ -282,7 +282,7 @@ namespace CitroidForSlack.Plugins.NazoBrain
 					}
 					return;
 				}
-				else if (mes.text.Contains("注意喚起"))
+				else if (isActive && mes.text.Contains("注意喚起"))
 				{
 					// 警告防止
 					Task<Task> @void = Task.Factory.StartNew(async () =>
