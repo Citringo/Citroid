@@ -274,7 +274,7 @@ namespace CitroidForSlack.Plugins.NazoBrain
 				}
 				else if (mes.text.Contains("かむひーや") || mes.text.Contains("おいで"))
 				{
-					if (username == "citrine")
+					if (username == Citroid.ParentName)
 					{
 						await citroid.PostAsync(mes.channel, $"*Citroid が入室しました*");
 						await citroid.PostAsync(mes.channel, $"Yo");
