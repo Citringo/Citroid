@@ -10,6 +10,7 @@ using System.IO;
 using Newtonsoft.Json;
 using CitroidForSlack.Api;
 using CitroidForSlack.Extensions;
+using NMeCab;
 
 namespace CitroidForSlack.Plugins.NazoBrain
 {
@@ -35,14 +36,14 @@ namespace CitroidForSlack.Plugins.NazoBrain
 		public NazoBrainConfig Config => config;
 
 		public string Name => "NazoBrain";
-		public string Version => "1.0.0";
-		public string Copyright => "(C)2017 Citrine";
+		public string Version => "2.0.0";
+		public string Copyright => "(C)2017 Xeltica";
 
 		public string Help =>
 			"発言を学習し:thinking_face:、蓄えた語彙を使ってリプライに返信します。:speech_balloon:\n" +
 			"Botの設定:gear:次第でリプライ無しでも発言します:muscle:\n" +
 			"\n" +
-			"この bot には淫夢要素などはありません。";
+			"新しくなった NazoBrain では 会話間の学習をサポートし、少しだけ賢くなりました。";
 
 		void Learn(string text) => Learn(text, DateTime.Now);
 
@@ -66,6 +67,10 @@ namespace CitroidForSlack.Plugins.NazoBrain
 		{
 			if (text.Length == 0)
 				return new string[0];
+
+			if (config.UseMecab)
+				return _tagger.Parse(text).Replace("\r", "").Replace("\n", "").Split(' ').Where(s => !string.IsNullOrEmpty(s) && !string.IsNullOrWhiteSpace(s)).ToArray();
+			
 			var list = new List<string>();
 			var buf = "";
 			for (var i = 0; i < text.Length; i++)
@@ -90,18 +95,14 @@ namespace CitroidForSlack.Plugins.NazoBrain
 				}
 
 				buf += text[i];
-				/*
-				now = text[i];
-				next = text[i + 1];
-				if (!wordBrain.ContainsKey(now))
-					wordBrain[now] = new Word(now);
-				wordBrain[now].Add(next, timeStamp);*/
 				prevBlock = block;
 			}
 			if (!string.IsNullOrEmpty(buf))
 				list.Add(buf);
 			return list.ToArray();
 		}
+
+		string[] prevList;
 
         /// <summary>
         /// 文を学習します。
@@ -119,17 +120,42 @@ namespace CitroidForSlack.Plugins.NazoBrain
             foreach (var text in texts.Split('\n'))
             {
                 string[] list = Split(text);
-                string now = "", next;
-                for (var i = 0; i < list.Length - 1; i++)
-                {
+				if (list.Length == 0)
+					continue;
+				string now = "", next, nenext;
+				
+				if (prevList != null && prevList.Length > 0)
+				{
+					// 前の発言の最後の単語を取り出す
+						var prevWord = prevList.LastOrDefault();
+					// その単語が記憶されてなかったら追加しておく
 
+					if (!wordBrain.ContainsKey(prevWord))
+						wordBrain.Add(prevWord, new Word(prevWord));
+					// その単語の\0候補の子候補リストに、今の発言の最初の単語を加える
+					wordBrain[prevWord].Add("\0", timeStamp).Add(list[0], timeStamp);
+
+					if (!wordBrain.ContainsKey("\0"))
+						wordBrain.Add("\0", new Word("\0"));
+					WordCandidate wc = wordBrain["\0"].Add(list[0], timeStamp);
+					if (list.Length > 1)
+						wc.Add(list[1], timeStamp);
+
+				}
+
+                for (var i = 0; i < list.Length; i++)
+                {
                     now = list[i];
-                    next = list[i + 1];
-                    if (!wordBrain.ContainsKey(now))
+					next = i < list.Length - 1 ? list[i + 1] : "\0";
+					nenext = i < list.Length - 2 ? list[i + 2] : "\0";
+					if (!wordBrain.ContainsKey(now))
                         wordBrain[now] = new Word(now);
-                    wordBrain[now].Add(next, timeStamp);
+					WordCandidate wc = wordBrain[now].Add(next, timeStamp);
+					if (!Null(nenext))
+						wc.Add(nenext, timeStamp);
                 }
                 lengthBrain.Add(text.Length);
+				prevList = list;
             }
 		}
 
@@ -140,40 +166,106 @@ namespace CitroidForSlack.Plugins.NazoBrain
 			wordBrain.Clear();
 		}
 
+		string Chain(string word)
+		{
+			var buf = new StringBuilder();
+			buf.Append(word);
+			Word w = wordBrain[word];
+			Word center;
+			while (!Null(word) && w != null)
+			{
+				WordCandidate mychild = w.Candidates.Random();
+				if (Null(mychild?.MyText))
+					break;
+				buf.Append(mychild.MyText);
+				WordCandidateChild childschild = mychild.Candidates.Random();
+				if (Null(childschild?.MyText))
+					break;
+				//buf.Append(childschild.MyText);
+				center = wordBrain[mychild.MyText];
+				word = center.Candidates.Find(wc => wc.MyText == childschild.MyText)?.MyText ?? center.Candidates.Random()?.MyText;
+				buf.Append(word);
+				w = wordBrain[word];
+			}
+			return buf.ToString();
+		}
+
+		bool Null(string str) => string.IsNullOrEmpty(str) || str == "\0";
+
 		string Say(string text)
 		{
-			Word trigger = wordBrain.Values.Random();
-			string[] list = Split(text);
-            foreach (var s in list)
-                if (wordBrain.ContainsKey(s))
-                {
-                    trigger = wordBrain[s];
-                }
-			if (trigger == null)
-				return ":fu:";
-			var length = lengthBrain.Count == 0 ? 140 : Math.Max(20, Math.Min(140, lengthBrain.Random()));
-			var sb = new StringBuilder();
+			if (wordBrain.Count == 0)
+				return "";
+			return Chain(NullCharFilter(FindChainCandidate(text) ?? ""));
 
-			//sb.Append(trigger.MyText) 
-			Word w = trigger;
-			for (var i = 0; i < length - 1;)
+			//Word trigger = wordBrain.Values.Random();
+			//string[] list = Split(text);
+   //         foreach (var s in list)
+   //             if (wordBrain.ContainsKey(s))
+   //             {
+   //                 trigger = wordBrain[s];
+   //             }
+			//if (trigger == null)
+			//	return "";
+			//var length = lengthBrain.Count == 0 ? 140 : Math.Max(20, Math.Min(140, lengthBrain.Random()));
+			//var sb = new StringBuilder();
+
+			////sb.Append(trigger.MyText) 
+			//Word w = trigger;
+			//for (var i = 0; i < length - 1;)
+			//{
+			//	if (w.Candidates.Count == 0)
+			//		break;
+			//	var c = w.Candidates.Random().MyText;
+			//	if (!wordBrain.ContainsKey(c))
+			//	{
+			//		sb.Append(c);
+			//		break;
+			//	}
+			//	w = wordBrain[c];
+			//	sb.Append(w.MyText);
+			//	// 英単語などは空白をあける
+			//	if (w.MyText.Last().GetBlock() == UnicodeBlock.Laten)
+			//		sb.Append(" ");
+			//	i += w.MyText.Length;
+			//}
+			//return sb.ToString();
+		}
+
+		private string NullCharFilter(string v)
+		{
+			// その単語の子要素にnull文字がなければ入力そのままで返す
+			if (!(wordBrain[v].Candidates.FirstOrDefault(c => c.MyText == "\0") is WordCandidate wc))
+				return v;
+			if (!(wc.Candidates.Random() is WordCandidateChild wcc))
+				return v;
+			if (!WordBrain.ContainsKey(wcc.MyText))
+				return v;
+			return wcc.MyText;
+		}
+
+		private string FindChainCandidate(string text)
+		{
+			string[] arglist = Split(text).Reverse().Take(3).Reverse().ToArray();
+			if (arglist.Length >= 1 && wordBrain.ContainsKey(arglist[0]))
 			{
-				if (w.Candidates.Count == 0)
-					break;
-				var c = w.Candidates.Random().MyText;
-				if (!wordBrain.ContainsKey(c))
-				{
-					sb.Append(c);
-					break;
-				}
-				w = wordBrain[c];
-				sb.Append(w.MyText);
-				// 英単語などは空白をあける
-				if (w.MyText.Last().GetBlock() == UnicodeBlock.Laten)
-					sb.Append(" ");
-				i += w.MyText.Length;
+				Word s1 = wordBrain[arglist[0]];
+				if (arglist.Length >= 2)
+					if (s1.Candidates.FirstOrDefault(w => w.MyText == arglist[1]) is WordCandidate wc)
+						if (arglist.Length >= 3)
+							if (wc.Candidates.FirstOrDefault(w => w.MyText == arglist[2]) is WordCandidate wcc)
+								return arglist[2];
+							else
+								return wc.Candidates.Count > 0 ? wc.Candidates.Random().MyText : wordBrain.Random().Key;
+						else
+							return arglist[1];
+					else
+						return s1.Candidates.Count > 0 ? s1.Candidates.Random().MyText : wordBrain.Random().Key;
+				else
+					return arglist[0];
 			}
-			return sb.ToString();
+			else
+				return wordBrain.Random().Key;
 		}
 
 		public bool CanExecute(Message mes) => true;
@@ -294,8 +386,11 @@ namespace CitroidForSlack.Plugins.NazoBrain
 				wordBrain = new Dictionary<string, Word>();
 			if (config == null)
 				config = new NazoBrainConfig();
-			
+			_tagger = MeCabTagger.Create();
+			_tagger.OutPutFormatType = "wakati";
 		}
+
+		private MeCabTagger _tagger;
 
 		public async Task LearnFromSlack(ICitroid citroid)
 		{
@@ -326,7 +421,7 @@ namespace CitroidForSlack.Plugins.NazoBrain
 			File.WriteAllText("lengthBrain.json",JsonConvert.SerializeObject(lengthBrain, Formatting.Indented));
 			File.WriteAllText("wordBrain.json",JsonConvert.SerializeObject(wordBrain, Formatting.Indented));
 			File.WriteAllText("NazoBrainConfig.json",JsonConvert.SerializeObject(config, Formatting.Indented));
-
+			_tagger?.Dispose();
 		}
 	}
 }

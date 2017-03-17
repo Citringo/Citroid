@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
+using System.Linq;
 
 namespace CitroidForSlack.Plugins.NazoBrain
 {
@@ -29,9 +30,19 @@ namespace CitroidForSlack.Plugins.NazoBrain
 		}
 
 
-		public void Add(string c) => Candidates.Add(new WordCandidate(c));
+		public WordCandidate Add(string c) => Add(c, DateTime.UtcNow);
 
-		public void Add(string c, DateTime time) => Candidates.Add(new WordCandidate(c, time));
+		public WordCandidate Add(string c, DateTime time)
+		{
+			if (Candidates.FirstOrDefault(ca => ca.MyText == c) is WordCandidate wc)
+			{
+				Candidates.Add(wc);
+				wc.RegisteredTime = time;
+				return wc;
+			}
+			Candidates.Add(wc = new WordCandidate(c, new List<WordCandidateChild>(), time));
+			return wc;
+		}
 
 
 		public Word(string c) : this(c, new List<WordCandidate>(), DateTime.UtcNow) { }

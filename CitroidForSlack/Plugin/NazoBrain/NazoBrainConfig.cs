@@ -27,6 +27,11 @@ namespace CitroidForSlack.Plugins.NazoBrain
 
 		public string TwitterAccessSecret { get; set; }
 
+		/// <summary>
+		/// 単語の取得にMecabを使うかどうか。
+		/// </summary>
+		public bool UseMecab { get; set; } = true;
+
 	}
 
 

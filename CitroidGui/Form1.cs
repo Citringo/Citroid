@@ -8,6 +8,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace CitroidGui
@@ -34,14 +35,11 @@ namespace CitroidGui
 					return;
 				treeView1.BeginUpdate();
 				treeView1.Nodes.Clear();
-				foreach (KeyValuePair<string, 
-					Word> k in bot.WordBrain)
-				{
-					var t = new TreeNode($"Word {k.Value.MyText} {k.Value.TimeStamp}");
-					foreach (WordCandidate wc in k.Value.Candidates)
-						t.Nodes.Add($"WordCandidate {wc.MyText}, {wc.RegisteredTime}");
-					treeView1.Nodes.Add(t);
-				}
+				treeView1.Nodes.AddRange(bot.WordBrain.Select(kvp => kvp.Value).Select(w =>
+					new TreeNode($"Word {w.MyText} {w.TimeStamp}", w.Candidates.Select(wc =>
+						new TreeNode($"WordCand {wc.MyText}, {wc.RegisteredTime}", wc.Candidates.Select(wcc =>
+							new TreeNode($"WordCandChild {wcc.MyText} {wcc.RegisteredTime}")).ToArray())).ToArray())).ToArray());
+				
 				treeView1.EndUpdate();
 			}
 
