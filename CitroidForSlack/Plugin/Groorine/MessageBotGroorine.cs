@@ -25,9 +25,9 @@ namespace CitroidForSlack.Plugins.Groorine
 
 		public string Name => "Groorine Bot";
 
-		public string Copyright => "(C)2016-2017 Citrine";
+		public string Copyright => "(C)2016-2017 Xeltica";
 
-		public string Version => "1.0.0alpha";
+		public string Version => "1.0.0";
 
 		public bool CanExecute(Message mes) => true;
 

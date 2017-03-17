@@ -22,7 +22,7 @@ namespace CitroidForSlack.Plugins.Utiline
 
 		public string Name => "Utiline";
 
-		public string Copyright => "(C)2017 Citrine";
+		public string Copyright => "(C)2017 Xeltica";
 
 		public string Version => "1.1.0";
 

@@ -197,39 +197,6 @@ namespace CitroidForSlack.Plugins.NazoBrain
 			if (wordBrain.Count == 0)
 				return "";
 			return Chain(NullCharFilter(FindChainCandidate(text) ?? ""));
-
-			//Word trigger = wordBrain.Values.Random();
-			//string[] list = Split(text);
-   //         foreach (var s in list)
-   //             if (wordBrain.ContainsKey(s))
-   //             {
-   //                 trigger = wordBrain[s];
-   //             }
-			//if (trigger == null)
-			//	return "";
-			//var length = lengthBrain.Count == 0 ? 140 : Math.Max(20, Math.Min(140, lengthBrain.Random()));
-			//var sb = new StringBuilder();
-
-			////sb.Append(trigger.MyText) 
-			//Word w = trigger;
-			//for (var i = 0; i < length - 1;)
-			//{
-			//	if (w.Candidates.Count == 0)
-			//		break;
-			//	var c = w.Candidates.Random().MyText;
-			//	if (!wordBrain.ContainsKey(c))
-			//	{
-			//		sb.Append(c);
-			//		break;
-			//	}
-			//	w = wordBrain[c];
-			//	sb.Append(w.MyText);
-			//	// 英単語などは空白をあける
-			//	if (w.MyText.Last().GetBlock() == UnicodeBlock.Laten)
-			//		sb.Append(" ");
-			//	i += w.MyText.Length;
-			//}
-			//return sb.ToString();
 		}
 
 		private string NullCharFilter(string v)
@@ -288,7 +255,7 @@ namespace CitroidForSlack.Plugins.NazoBrain
                 mes.text = mes.text.Replace($"<@{citroid.Id}> ", "").Replace($"<@{citroid.Id}>", "");
 				if (mes.text.Contains("ぼんぼやーじゅ") || mes.text.Contains("ばいばい"))
 				{
-					if (username == "citrine")
+					if (username == Citroid.ParentName)
 					{
 						// 反抗期卒業
 

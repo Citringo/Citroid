@@ -12,7 +12,7 @@ namespace CitroidForSlack.Plugins.CitDealer
 	{
 		public string Name => "しとディーラー";
 
-		public string Copyright => "(C)2017 Citrine";
+		public string Copyright => "(C)2017 Xeltica";
 
 		public string Version => "2.0.0 pre-alpha";
 

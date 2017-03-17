@@ -40,7 +40,9 @@ namespace CitroidForSlack
 		/// <summary>
 		/// このBotのバージョンです。
 		/// </summary>
-		public static readonly string VERSION = "1.2.0beta";
+		public static readonly string VERSION = "1.2.0";
+
+		public static string ParentName = "xeltica";
 
 		/// <summary>
 		/// ヘルプの表示につかう線です。
@@ -59,7 +61,7 @@ namespace CitroidForSlack
 			$"{NAME.ToLower()} changelog      => 更新履歴を表示します\n";
 
 		public static string HelpFooter =>
-			"(C)2017 Citrine with GitHub contributors\n" +
+			"(C)2017 Xeltica with GitHub contributors\n" +
 			"GitHub: ttps://github.com/citringo/citroid";
 
 		public static string ChangeLog =>
@@ -290,8 +292,9 @@ namespace CitroidForSlack
 
 				var sb = new StringBuilder();
 
-				if (ma.Groups[1].Value is string botname)
+				if (!string.IsNullOrEmpty(ma.Groups[1].Value))
 				{
+					var botname = ma.Groups[1].Value;
 					botname = botname.Trim();
 					IBot bot = _bots.FirstOrDefault(b => b.Name == botname);
 					if (bot == null)
@@ -320,6 +323,10 @@ namespace CitroidForSlack
 			else if (EmbeddedCommandChangelog.IsMatch(m.text))
 			{
 				await PostAsync(m.channel, ChangeLog);
+			}
+			else if (EmbeddedCommandBot.IsMatch(m.text))
+			{
+				await PostAsync(m.channel, string.Join("\n", _bots.Select(b => b.Name)));
 			}
 			else
 				return false;
